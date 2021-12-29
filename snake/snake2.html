@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<link rel="Stylesheet" type="text/css" href="style2.css" />
+	<title>Wąż</title>
+</head>
+
+
+<body>
+	<div id="page">
+		<span id="debug">
+			<canvas id="elementCanvas" height="500" width="500"></canvas>
+		</span>
+		<div id="score">
+		</div>
+		<div><a href="../index.html">Powrót do strony głównej</a></div>
+
+
+		<table id="menuTable" class="menuTable">
+			<tr><td><button id="newGame" class="newGame L">Nowa gra</button></td></tr>
+			<tr><td><button id="options" class="L">Opcje</button></td></tr>
+			<tr><td><button id="help" class="L">Pomoc</button></td></tr>
+		</table>
+
+		<table id="optionsTable" class="optionsTable">
+			<tr>
+				<td>Liczba min</td>
+				<td><input type="text" id="pNumberOfMines" maxlength="3" /></td>
+			</tr>
+
+			<tr>
+				<td>Liczba jabłek </td>
+				<td><input type="text" id="pNumberOfApples" maxlength="3" /></td>
+			</tr>
+
+			<tr>
+				<td>Szerokość pola gry (w blokach)</td>
+				<td><input type="text" id="pWidthInSquares" maxlength="2" /></td>
+			</tr>
+
+			<tr>
+				<td>Wysokość pola gry (w blokach)</td>
+				<td><input type="text" id="pHeigthInSquares" maxlength="2" /></td>
+			</tr>
+
+			<tr>
+				<td>Długość boku bloku (w pikselach)</td>
+				<td><input type="text" id="pSizeOfSquare" maxlength="2" /></td>
+			</tr>
+
+			<tr>
+				<td>Utrata długości po zderzeniu z miną</td>
+				<td><input type="text" id="pLossOnMine" maxlength="3" /></td>
+			</tr>
+
+			<tr>
+				<td>Utrata długości po zderzeniu ze ścianą</td>
+				<td><input type="text" id="pLossOnWall" maxlength="3" /></td>
+			</tr>
+
+			<tr>
+				<td>Utrata długości po zderzeniu z samym sobą</td>
+				<td><input type="text" id="pLossOnSnake" maxlength="3" /></td>
+			</tr>
+
+			<tr>
+				<td>Początkowa długość węża</td>
+				<td><input type="text" id="pStartSnakeLength" maxlength="3" /></td>
+			</tr>
+
+			<tr>
+				<td>Czas między zmianami układu min (w s)</td>
+				<td><input type="text" id="pTimeOfTheSetOfMines" maxlength="5" /></td>
+			</tr>
+
+			<tr>
+				<td>Czas między ruchami węża (w ms)</td>
+				<td><input type="text" id="pTimeBetweenMoves" maxlength="5" /></td>
+			</tr>
+
+			<tr>
+				<td>Kolor węża</td>
+				<td>
+					<select id="pSnakeColor">
+						<option value="Red">Czerwony</option>
+						<option value="Orange">Pomarańczowy</option>
+						<option value="Gold">Żółty</option>
+						<option value="Green">Zielony</option>
+						<option value="Blue" selected>Niebieski</option>
+						<option value="Purple">Fioletowy</option>
+						<option value="Brown">Brązowy</option>
+						<option value="Gray">Szary</option>
+						<option value="Black">Czarny</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td>Kolor jabłek</td>
+				<td>
+					<select id="pApplesColor">
+						<option value="Red">Czerwony</option>
+						<option value="Orange">Pomarańczowy</option>
+						<option value="Gold">Żółty</option>
+						<option value="Green" selected>Zielony</option>
+						<option value="Blue">Niebieski</option>
+						<option value="Purple">Fioletowy</option>
+						<option value="Brown">Brązowy</option>
+						<option value="Gray">Szary</option>
+						<option value="Black">Czarny</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td>Kolor min</td>
+				<td>
+					<select id="pMinesColor">
+						<option value="Red" selected>Czerwony</option>
+						<option value="Orange">Pomarańczowy</option>
+						<option value="Gold">Żółty</option>
+						<option value="Green">Zielony</option>
+						<option value="Blue">Niebieski</option>
+						<option value="Purple">Fioletowy</option>
+						<option value="Brown">Brązowy</option>
+						<option value="Gray">Szary</option>
+						<option value="Black">Czarny</option>
+					</select>
+				</td>
+			</tr>
+
+
+			<tr>
+				<td>Kolor ścian</td>
+				<td>
+					<select id="pWallsColor">
+						<option value="Red">Czerwony</option>
+						<option value="Orange">Pomarańczowy</option>
+						<option value="Gold">Żółty</option>
+						<option value="Green">Zielony</option>
+						<option value="Blue" >Niebieski</option>
+						<option value="Purple">Fioletowy</option>
+						<option value="Brown">Brązowy</option>
+						<option value="Gray" selected>Szary</option>
+						<option value="Black">Czarny</option>
+					</select>
+				</td>
+			</tr>
+
+			<tr>
+				<td><button id="submit">Zatwierdź</button></td>
+			</tr>
+
+		</table>
+
+
+		<div id="helpText" class='helpText'>
+			<table>
+				<tr>
+					<th>
+						Sterowanie
+					</th>
+				</tr>
+				<tr>
+					<td>Strzałki</td>
+					<td>Ruch</td>
+				</tr>
+				<tr>
+					<td>Q</td>
+					<td>Pauza</td>
+				</tr>
+				<tr>
+					<td>1, 2, 3, 4</td>
+					<td>Ustawia określoną szerokość głowy węża</td>
+				</tr>
+				<tr>
+					<td>`</td>
+					<td>Zwiększa o 2 szerokość głowy węża; gdy szerokość głowy jest już maksymalna, to przywraca szerokość minimalną</td>
+				</tr>
+				<tr>
+					<td>Control</td>
+					<td>,,Odwraca" węża - zamienia głowę i ogon</td>
+				</tr>
+				<tr>
+					<td>Backspace</td>
+					<td>Skraca węża o 1</td>
+				</tr>
+			</table>
+			<p>
+				Przy standardowych ustawieniach zielone kwadraty to pokarm, którego zjedzenie zwiększa długość węża o 1. Czerwone kwadraty to miny, zderzenie z nimi skraca węża o 20. Co 60 sekund następuje zmiana położenia min W odróżnieniu od większości wersji, tutaj zderzenie z ścianą czy z samym sobą niekoniecznie kończy grę, a jedynie skraca węża o 100. Koniec gry następuje, gdy długość spadnie do zera lub mniej. Zderzenie z miną, ścianą lub samym wężem powoduje zmniejszenie szerokości głowy węża do wartości najmniejszej.
+			</p>
+			<p>
+				Powyższy akapit opisuje ustawienia domyślne. Po wybraniu w menu przycisku ,,opcje" gracz może zmienić wiele ustawień. Większość gier zawiera pewne ograniczenia uniemożliwiające np. zbytnie zwiększenie prędkości gry. Tutaj zasadniczo brak takich ograniczeń, należy jednak pamiętać, że wprowadzenie skrajnych wartości może bardzo utrudnić lub uniemożliwić grę.
+			</p>
+			<button id="menu2" class="menu2 menuForClick">Menu</button>
+		</div>
+
+		<button id="newGame2" class="newGame newGame2">Nowa gra </button>
+		<button id="menu" class="menuForClick menu">Menu</button>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+	<script src="script.js"></script>
+
+</body>
+</html>

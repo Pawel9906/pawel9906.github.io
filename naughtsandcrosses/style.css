@@ -1,0 +1,10 @@
+canvas {
+	background-color: white;
+	border: 7px solid gray;
+}
+
+button {
+	width: 100px;
+	height: 50px;
+}
+

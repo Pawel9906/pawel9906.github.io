@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<link href="../bio/style.css" rel="stylesheet" type="text/css" />
+	<title>Mrówka Langtona</title>
+</head>
+
+<body>
+
+	<div class="page">
+
+		<header class="part1">
+			<div>
+
+				<h1>Aplikacje JS</h1>
+				<h2>Vanilla JS, jQuery, Vue, React</h2>
+
+			</div>
+		</header>
+
+
+		<nav class="part2">
+
+			<label for="toggle"><img src="../images/menu.png" class="menuIcon" /></label><input id="toggle" class="toggle" type="checkbox"/>
+			
+			<ul class='navList'>
+				<li class="app"><a href="../index.html">Strona główna</a></li>
+				<li class="category">Vanilla JS</li>				
+				<li class="app"><a href="../calculator/calculator.html">Kalkulator</a></li>
+				<li class="app"><a href="../calculator2/calculator2.html">Kalkulator wektorowy</a></li>
+				<li class="app"><a href="../primefactors/primefactors.html">Rozkład na czynniki pierwsze</a></li>
+				<li class="app"><a href="../division/division.html">Dzielenie pisemne</a></li>
+				<li class="app"><a href="../life/life.html">Gra w życie</a></li>
+				<li class="app"><a href="../ant/ant.html">Mrówka Langtona</a></li>
+				<li class="app"><a href="../plane/plane.html">Płaszczyzna</a></li>
+				<li class="app"><a href="../tennis/tennis.html">Tenis</a></li>
+				<li class="app"><a href="../pokedex/pokedex.html">Pokédex</a></li>
+				<li class="category">jQuery</li>
+				<li class="app"><a href="../snake/snake.html">Wąż</a></li>
+				<li class="app"><a href="../naughtsandcrosses/naughtsandcrosses.html">Kółko i krzyżyk</a></li>
+				<li class="app"><a href="../chaturanga/chaturanga.html">Czaturanga</a></li>
+				<li class="category">React</li>
+				<li class="app"><a href="../memory/memory.html">Memory</a></li>
+				<li class="category">Vue</li>
+				<li class="app"><a href="../hangman/hangman.html">Wisielec</a></li>
+				<li class="app"><a href="../physics/physics.html">Cząstka na płaszczyźnie</a></li>
+				<li class="app"><a href="../transcription/transcription.html">Transkrypcja itd.</a></li>
+				<li class="app"><a href="../plasmids/plasmids.html">Plazmidy</a></li>
+				
+			</ul>
+
+		</nav>
+
+		<div class="part3">
+
+			<div class="inner">
+
+
+
+
+				<h2>Transkrypcja</h2>
+
+				<div class="description">
+				<p>Aplikacja dotycząca genetyki molekularnej. Podaje produkty replikacji, transkrypcji, translacji.</p>
+				</div>
+
+
+
+
+			<div id="app">
+
+	<fieldset>
+		<legend> Ustawienia </legend>
+
+
+
+		<span class="selectTitle">Kod genetyczny</span>
+
+
+
+		<select v-model="code">
+			<option value="standard">Standardowy</option>
+			<option value="mitVer">Mitochondria kręgowców</option>
+		</select>
+
+		<br />
+
+		<span class="selectTitle twoLines">Skróty aminokwasów</span>
+
+
+
+		<select v-model="aminoacidsString">
+			<option value="0">Trójliterowe</option>
+			<option value="1">Jednoliterowe</option>
+		</select>
+
+		</fieldset>
+
+		<br />
+
+		
+
+		<span class="textareaTitle">Wpisz DNA</span>
+		<br />
+		<textarea v-model="user" @keypress="onlyGoodLetters"></textarea>
+
+		<br />
+
+		<button @click="start()" class="start">Start</button>
+
+		<br />
+
+	
+
+			
+			<span class="textareaTitle">Komplementarna nić DNA (w kierunku 3'->5')</span>
+			<br />
+			<textarea v-model="resultDNA" ></textarea>
+			<br />
+			<span class="textareaTitle">Produkt transkrypcji</span>
+			<br />
+			<textarea v-model="resultRNA"></textarea>
+			<br />
+			<span class="textareaTitle">Produkt translacji produktu transkrypcji</span>
+			<br />
+			<textarea v-model="resultPeptide"></textarea>
+
+
+
+</div>
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<script src="../bio/script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="script.js"></script>
+	<script src="../script.js"></script>
+
+</body>
+</html>

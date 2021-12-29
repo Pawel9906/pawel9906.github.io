@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<title>Cząstka na płaszczyźnie</title>
+</head>
+
+<body>
+
+	<div class="page">
+
+		<header class="part1">
+			<div>
+
+				<h1>Aplikacje JS</h1>
+				<h2>Vanilla JS, jQuery, Vue, React</h2>
+
+			</div>
+		</header>
+
+
+		<nav class="part2">
+
+			<label for="toggle"><img src="../images/menu.png" class="menuIcon" /></label><input id="toggle" class="toggle" type="checkbox"/>
+			
+			<ul class='navList'>
+				<li class="app"><a href="../index.html">Strona główna</a></li>
+				<li class="category">Vanilla JS</li>				
+				<li class="app"><a href="../calculator/calculator.html">Kalkulator</a></li>
+				<li class="app"><a href="../calculator2/calculator2.html">Kalkulator wektorowy</a></li>
+				<li class="app"><a href="../primefactors/primefactors.html">Rozkład na czynniki pierwsze</a></li>
+				<li class="app"><a href="../division/division.html">Dzielenie pisemne</a></li>
+				<li class="app"><a href="../life/life.html">Gra w życie</a></li>
+				<li class="app"><a href="../ant/ant.html">Mrówka Langtona</a></li>
+				<li class="app"><a href="../plane/plane.html">Płaszczyzna</a></li>
+				<li class="app"><a href="../tennis/tennis.html">Tenis</a></li>
+				<li class="app"><a href="../pokedex/pokedex.html">Pokédex</a></li>
+				<li class="category">jQuery</li>
+				<li class="app"><a href="../snake/snake.html">Wąż</a></li>
+				<li class="app"><a href="../naughtsandcrosses/naughtsandcrosses.html">Kółko i krzyżyk</a></li>
+				<li class="app"><a href="../chaturanga/chaturanga.html">Czaturanga</a></li>
+				<li class="category">React</li>
+				<li class="app"><a href="../memory/memory.html">Memory</a></li>
+				<li class="category">Vue</li>
+				<li class="app"><a href="../hangman/hangman.html">Wisielec</a></li>
+				<li class="app"><a href="../physics/physics.html">Cząstka na płaszczyźnie</a></li>
+				<li class="app"><a href="../transcription/transcription.html">Transkrypcja itd.</a></li>
+				<li class="app"><a href="../plasmids/plasmids.html">Plazmidy</a></li>
+				
+			</ul>
+
+		</nav>
+
+		<div class="part3">
+
+			<div class="inner">
+
+
+
+
+				<h2>Cząstka na płaszczyznie</h2>
+
+				<div class="description">
+					<p>Symulator cząstki na płaszczyźnie w polach elektrostatycznym i magnetycznym. Pole elektrostatyczne może być centralne lub jedorodne. Kierunek indukcji magnetycznej jest prostopadły do płaszczyzny. Zwrot dodatni to zwrot od ekranu w stronę użytkownika. Program pomija: </p>
+					<ul>
+						<li>efekty relatywistyczne</li>
+						<li>wpływ ładunku cząstki na pole elektrostatyczne</li>
+						<li>wpływ ruchu naładowanej cząstki na pole magnetyczne</li>
+						<li>utratę energii przez cząstkę wskutek emisji fal elektromagnetycznych</li>
+					</ul>
+					<p>Prędkość jest podawana w px/50ms = 20px/s.</p>
+
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="app">
+
+		<div class="menuTop">
+			<button class="L" @click="partOfMenu = 1">Kulka</button>
+			<button class="L" @click="partOfMenu = 2">Pole elektrostatyczne</button>
+			<button class="L" @click="partOfMenu = 3">Pole magnetyczne</button>
+		</div>
+
+		<div class="menuMiddle">
+
+			<div v-if="partOfMenu === 1">
+				<table>
+					<tr>
+						<th class="col1">Współrzędna X
+						</th>
+						<td class="col2">
+							<span v-if="!x.show">
+								{{x.value.toFixed(3)}}
+								<button class="S" @click="x.show = true">Zmień</button>
+							</span>
+							<span  v-show="x.show"> <!--Musi być dostęp ze skryptu do newX, dlatego v-show zamiast v-if -->
+								<input type="number" @keypress="onlyDigits" v-model="x.new" min="1" max="500" id='newX' />
+								<button class="S" @click="x.actualize()">Zatwierdź</button>
+								<button class="S" @click="x.show = false">Cofnij</button>	
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th>Współrzędna Y
+						</th>
+						<td>
+							<span v-if="!y.show">
+								{{y.value.toFixed(3)}}
+								<button class="S" @click="y.show = true">Zmień</button>
+							</span>
+							<span  v-show="y.show"> <!--Musi być dostęp ze skryptu do newY, dlatego v-show zamiast v-if -->
+								<input type="number" @keypress="onlyDigits" v-model="y.new" min="0" max="500" id='newY' />
+								<button class="S" @click="y.actualize()">Zatwierdź</button>
+								<button class="S" @click="y.show = false">Cofnij</button>	
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th>Składowa X prędkości
+						</th>
+						<td> 
+							<span v-if="!showVx">
+								{{vX.toFixed(3)}}
+								<button class="S" @click="showVx = true">Zmień</button>
+							</span>
+							<span  v-if="showVx">
+								<input type="number" @keypress="notE" v-model="newVx" />
+								<button class="S" @click="actualizeVX();">Zatwierdź</button>
+								<button class="S" @click="showVx = false">Cofnij</button>	
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th> Składowa Y prędkości
+						</th>
+						<td> 
+							<span v-if="!showVy">
+								{{vY.toFixed(3)}}
+								<button class="S" @click="showVy = true">Zmień</button>
+							</span>
+							<span  v-if="showVy">
+								<input type="number" @keypress="notE" v-model="newVy" />
+								<button class="S" @click="actualizeVY();">Zatwierdź</button>
+								<button class="S" @click="showVy = false">Cofnij</button>	
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th> Szybkość
+						</th>
+						<td> {{ v.toFixed(3)  }}
+						</td>
+					</tr>
+
+					<tr>
+						<th> Składowa X pędu
+						</th>
+						<td>
+							<span v-if="!pX.show">
+								{{pX.value.toFixed(3)}}
+								<button class="S" @click="pX.show = true">Zmień</button>
+							</span>
+							<span  v-if="pX.show">
+								<input type="number" @keypress="notE" v-model="pX.new" />
+								<button class="S" @click="pX.actualize();">Zatwierdź</button>
+								<button class="S" @click="pX.show = false">Cofnij</button>	
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th> Składowa Y pędu
+						</th>
+						<td>
+							<span v-if="!pY.show">
+								{{pY.value.toFixed(3)}}
+								<button class="S" @click="pY.show = true">Zmień</button>
+							</span>
+							<span  v-if="pY.show">
+								<input type="number" @keypress="notE" v-model="pY.new" />
+								<button class="S" @click="pY.actualize();">Zatwierdź</button>
+								<button class="S" @click="pY.show = false">Cofnij</button>	
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th> Wartość pędu
+						</th>
+						<td> {{ p.toFixed(3) }}
+						</td>
+					</tr>
+
+					<tr>
+						<th> Masa
+						</th>
+						<td>
+							<span v-if="!m.show">
+								{{m.value.toFixed(3)}}
+								<button class="S" @click="m.show = true">Zmień</button>
+							</span>
+							<span  v-if="m.show">
+								<input type="number" @keypress="onlyDigits" v-model="m.new" />
+								<button class="S" @click="actualizeM();">Zatwierdź</button>
+								<button class="S" @click="m.show = false">Cofnij</button>	
+							</span>
+						</td>
+					</tr>
+
+
+					<tr>
+						<th> Ładunek
+						</th>
+						<td>
+							<span v-if="!q.show">
+								{{q.value.toFixed(3)}}
+								<button class="S" @click="q.show = true">Zmień</button>
+							</span>
+							<span  v-if="q.show">
+								<input type="number" @keypress="notE" v-model="q.new" />
+								<button class="S" @click="q.actualize();">Zatwierdź</button>
+								<button class="S" @click="q.show = false">Cofnij</button>	
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th> Energia kinetyczna
+						</th>
+						<td> {{eK.toFixed(3)}}
+						</td>
+					</tr>
+
+
+				</table>
+
+
+			</div>
+
+			<div v-show="partOfMenu === 2"> <!--Musi być dostęp ze skryptu do newEX, newEY, dlatego v-show zamiast v-if -->
+				<table>
+					<tr v-if="!e.show">
+						<th class="col1">Typ pola
+						</th>
+						<td class="col2">
+							{{e.type.value}}
+						</td>
+					</tr>
+
+					<tr v-if="e.type.value === 'Centralne' && !e.show">
+						<th>Współrzędna X ładunku
+						</th>
+						<td> {{e.x.value}}
+						</td>
+					</tr>
+
+					<tr v-if="e.type.value === 'Centralne' && !e.show">
+						<th>Współrzędna Y ładunku
+						</th>
+						<td> {{e.y.value}}
+						</td>
+					</tr>
+
+					<tr v-if="e.type.value === 'Centralne' && !e.show">
+						<th>Ładunek
+						</th>
+						<td> {{e.q.value}}
+						</td>
+					</tr>
+
+					<tr v-if="e.type.value === 'Jednorodne' && !e.show">
+						<th>Składowa X natężenia pola
+						</th>
+						<td> {{e.ex.value}}
+						</td>
+					</tr>
+
+					<tr v-if="e.type.value === 'Jednorodne' && !e.show">
+						<th>Składowa Y natężenia pola
+						</th>
+						<td> {{e.ey.value}}
+						</td>
+					</tr>
+
+
+
+
+
+
+
+					<tr v-show="e.show"> <!--Musi być dostęp ze skryptu do newEX, newEY, dlatego v-show zamiast v-if -->
+						<th class="col1 moreHeight" >Typ pola
+						</th>
+						<td class="col2 moreHeight">
+							<input type="radio" v-model="e.type.new" value="Centralne" id="Centralne" />
+							<label for="Centralne"> Centralne </label>
+							<br />
+							<input type="radio" v-model="e.type.new" value="Jednorodne" id="Jednorodne" />
+							<label for="Jednorodne"> Jednorodne </label>
+							<br />
+							<input type="radio" v-model="e.type.new" value="Brak" id="Brak" />
+							<label for="Brak"> Brak </label>
+						</td>
+					</tr>
+
+					<tr v-show="e.show && e.type.new === 'Centralne'"> <!--Musi być dostęp ze skryptu do newEX, dlatego v-show zamiast v-if -->
+						<th>Współrzędna X ładunku
+						</th>
+						<td> <input type="number" @keypress="onlyDigits" v-model="e.x.new" min="0" max="500" id='newEX' />
+						</td>
+					</tr>
+
+					<tr v-show="e.show && e.type.new === 'Centralne'"> <!--Musi być dostęp ze skryptu do newEX, dlatego v-show zamiast v-if -->
+						<th>Współrzędna Y ładunku 
+						</th>
+						<td> <input type="number" @keypress="onlyDigits" v-model="e.y.new" min="0" max="500" id='newEY' />
+						</td>
+					</tr>
+
+					<tr v-if="e.show && e.type.new === 'Centralne'">
+						<th>Ładunek
+						</th>
+						<td> <input type="number" @keypress="notE" v-model="e.q.new" />
+						</td>
+					</tr>
+
+
+					<tr v-if="e.type.new === 'Jednorodne' && e.show">
+						<th>Składowa X natężenia pola
+						</th>
+						<td> <input type="number" @keypress="notE" v-model="e.ex.new" />
+						</td>
+					</tr>
+
+					<tr v-if="e.type.new === 'Jednorodne' && e.show">
+						<th>Składowa Y natężenia pola
+						</th>
+						<td> <input type="number" @keypress="notE" v-model="e.ey.new" />
+						</td>
+					</tr>
+
+
+				</table>
+
+				<button class="M" v-if="!e.show" @click="e.show = true;">Zmień</button>
+				<button class="M" v-if="e.show" @click="e.show = false;">Cofnij</button>
+				<button class="M" v-if="e.show" @click="e.actualize();">Zatwierdź</button>
+			</div>
+
+
+			<div v-if="partOfMenu === 3">
+				<table>
+
+
+					<tr>
+						<th class="col1">Indukcja magnetyczna
+						</th>
+						<td class="col2">
+							<span v-if="!b.show">
+								{{b.value}}
+								<button class="S" @click="b.show = true">Zmień</button>
+							</span>
+							<span  v-if="b.show">
+								<input type="number" @keypress="notE" v-model="b.new" />
+								<button class="S" @click="b.actualize()">Zatwierdź</button>
+								<button class="S" @click="b.show = false;">Cofnij</button>	
+							</span>
+						</td>
+					</tr>
+
+					<tr>
+						<th>Siła Lorentza
+						</th>
+						<td> {{Math.abs(forceLorentz).toFixed(3)}}
+						</td>
+					</tr>
+
+					<tr>
+						<th>Promień
+						</th>
+						<td> {{radiusShowed}}
+						</td>
+					</tr>
+
+
+					<tr>
+						<th>Okres
+						</th>
+						<td> {{periodShowed}}
+						</td>
+					</tr>
+
+
+					<tr>
+						<th>Prędkość kątowa
+						</th>
+						<td> {{angularVelocityShowed}}
+						</td>
+					</tr>
+
+
+
+				</table>
+			</div>
+
+			
+
+
+
+		</div>
+
+		<div class="menuBottom">
+
+			<button class="L" @click="draw = !draw">
+				<span v-if="draw">Rysowanie włączone</span>
+				<span v-if="!draw">Rysowanie wyłączone</span>
+				
+			</button>
+
+			<button class="L"  @click="clear()">Czyść</button>
+
+			<button class="L" @click="pause = !pause">
+				<span v-if="pause">Wznów</span>
+				<span v-if="!pause">Pauza</span>
+			</button>
+
+		</div>
+
+
+
+
+
+		<div id='canvasContainer'>
+		<canvas id="canvas" width="600" height="600"></canvas>
+		<canvas id="canvas2" width="600" height="600"></canvas>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script src="script.js"></script>
+	<script src="../script.js"></script>
+
+</body>
+</html>

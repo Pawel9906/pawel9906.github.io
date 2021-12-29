@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<title>Memory</title>
+</head>
+
+<body>
+
+	<div class="page">
+
+		<header class="part1">
+			<div>
+
+				<h1>Aplikacje JS</h1>
+				<h2>Vanilla JS, jQuery, Vue, React</h2>
+
+			</div>
+		</header>
+
+
+		<nav class="part2">
+
+			<label for="toggle"><img src="../images/menu.png" class="menuIcon" /></label><input id="toggle" class="toggle" type="checkbox"/>
+			
+			<ul class='navList'>
+				<li class="app"><a href="../index.html">Strona główna</a></li>
+				<li class="category">Vanilla JS</li>				
+				<li class="app"><a href="../calculator/calculator.html">Kalkulator</a></li>
+				<li class="app"><a href="../calculator2/calculator2.html">Kalkulator wektorowy</a></li>
+				<li class="app"><a href="../primefactors/primefactors.html">Rozkład na czynniki pierwsze</a></li>
+				<li class="app"><a href="../division/division.html">Dzielenie pisemne</a></li>
+				<li class="app"><a href="../life/life.html">Gra w życie</a></li>
+				<li class="app"><a href="../ant/ant.html">Mrówka Langtona</a></li>
+				<li class="app"><a href="../plane/plane.html">Płaszczyzna</a></li>
+				<li class="app"><a href="../tennis/tennis.html">Tenis</a></li>
+				<li class="app"><a href="../pokedex/pokedex.html">Pokédex</a></li>
+				<li class="category">jQuery</li>
+				<li class="app"><a href="../snake/snake.html">Wąż</a></li>
+				<li class="app"><a href="../naughtsandcrosses/naughtsandcrosses.html">Kółko i krzyżyk</a></li>
+				<li class="app"><a href="../chaturanga/chaturanga.html">Czaturanga</a></li>
+				<li class="category">React</li>
+				<li class="app"><a href="../memory/memory.html">Memory</a></li>
+				<li class="category">Vue</li>
+				<li class="app"><a href="../hangman/hangman.html">Wisielec</a></li>
+				<li class="app"><a href="../physics/physics.html">Cząstka na płaszczyźnie</a></li>
+				<li class="app"><a href="../transcription/transcription.html">Transkrypcja itd.</a></li>
+				<li class="app"><a href="../plasmids/plasmids.html">Plazmidy</a></li>
+				
+			</ul>
+
+		</nav>
+
+		<div class="part3">
+
+			<div class="inner">
+
+
+
+
+
+
+
+				<h2>Memory</h2>
+
+				<div class='description'>Znana gra.</div>
+
+				<div id="memory"></div>
+
+
+
+				  <script src="https://unpkg.com/react/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone/babel.js"></script>
+
+
+
+  <script type="text/babel">
+
+  	let numberOfPairs = 5;
+
+  	let phase = 1;
+  	let reversed;
+  	let blocked = false;
+  	let cardsArray = [];
+  	let shouldCardReturn = false;
+  	let startButton;
+
+
+
+class StartButton extends React.Component {
+
+constructor(props) {
+	super(props)
+}
+
+render() {
+
+startButton = this;
+console.log(startButton)
+
+let buttonStyle = {
+	float: 'left',
+	height: 50,
+	width: 70,
+	display: 'table-cell',
+	borderRadius: 10,
+
+}
+
+
+
+
+	return <button style={buttonStyle}>Nowa gra</button>
+}
+}
+
+
+class Game extends React.Component {
+
+constructor(props) {
+	super(props);
+	
+
+	this.change = this.change.bind(this)
+	this.start = this.start.bind(this)
+}
+
+change(e) {
+	numberOfPairs = parseInt(e.target.value);
+}
+
+start() {
+	phase = 1;
+	shouldCardReturn = true;
+	reversed = null;
+	this.setState({})
+}
+
+
+
+
+
+
+render() {
+
+
+
+
+
+let preArray = []
+
+for (let i = 0; i <numberOfPairs; i++) {
+	preArray.push( '../images/' + (i+1) + '.png'  )
+}
+
+preArray = preArray.concat(preArray)
+var array = []
+
+var target = preArray.length
+
+while (target !== array.length) {
+
+	let i = Math.floor(Math.random() * preArray.length)
+
+	array.push (preArray[i])
+
+	preArray = preArray.slice(0, i).concat(preArray.slice(i + 1))
+
+
+	
+
+
+}
+
+ cardsArray = [];
+for (let i = 0; i <array.length; i++) {
+	cardsArray.push(<Card source={array[i]} key={i}/>)
+}
+
+
+let labelStyle = {
+display: 'table-cell'
+	
+}
+
+
+let headerStyle = {
+
+border: "5px solid black",
+padding: 10,
+margin: 10,
+height: 50,
+width: 200,
+display: 'table'
+	
+}
+
+let selectStyle = {
+	width: 100,
+	fontSize: 24,
+}
+
+
+return <React.Fragment>
+
+<div style={headerStyle}>
+	<label style={labelStyle}>
+	Liczba par kart <br/>
+<select style={selectStyle} defaultValue="5" onChange={this.change}>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+
+</select>
+</label>
+<span onClick={this.start} > <StartButton/></span> <br/>
+</div>
+<div>
+ {cardsArray}
+</div>
+</React.Fragment>
+	
+}
+
+}
+
+
+
+
+
+
+
+
+
+class Card extends React.Component {
+
+constructor(props) {
+	super(props);
+	this.state = {
+	state: 1
+	}
+
+	this.click = this.click.bind(this)
+}
+
+click() {
+
+if (blocked || this === reversed || this.state.state === 2) {
+	
+	return;
+}
+
+shouldCardReturn = false;
+
+if (phase === 1) {
+	phase = 2;
+	this.setState({state: 2});
+	reversed = this;
+} else if (phase === 2) {
+
+	blocked = true;
+	phase = 1;
+
+	this.setState({state: 2});
+	let thisCard = this;
+
+	if (reversed.props.source === thisCard.props.source) {
+			blocked = false;
+			reversed = null;
+
+	} else {
+
+		setTimeout(function () {  
+
+		
+			reversed.setState({state: 1});
+			thisCard.setState({state: 1});
+			
+			blocked = false;
+			reversed = null;
+		}, 500)
+	}
+}
+}
+
+render() {
+
+console.log("karta renderuje się")
+if (shouldCardReturn) {
+	this.state.state = 1;
+}
+
+let style1 = {
+	border: "5px solid black",
+	height: 100,
+	width: 100,
+	borderRadius: 15,
+	margin: 5,
+	float: "left",
+	display: "inline-block",
+}
+
+let style2 = {
+	border: "5px solid black",
+	height: 100,
+	width: 100,
+	borderRadius: 15,
+	margin: 5,
+	float: "left",
+	display: "inline-block",
+	backgroundColor: "deepskyblue",
+}
+
+let imgStyle = {
+	height: 70,
+	width: 70,
+	margin: 15,
+}
+
+if (this.state.state === 1) {
+	return <span style={style2} onClick={this.click}></span>	
+} else if (this.state.state === 2) {
+	return <span style={style1} onClick={this.click}><img  src={this.props.source} style={imgStyle}/></span>
+}
+
+}
+
+}
+
+
+
+
+ReactDOM.render(<Game/>, document.getElementById("memory"))
+
+
+
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+	<script src="../script.js"></script>
+
+</body>
+</html>

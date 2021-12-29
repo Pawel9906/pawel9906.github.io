@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<title>Tenis</title>
+</head>
+
+<body>
+
+	<div class="page">
+
+		<header class="part1">
+			<div>
+
+				<h1>Aplikacje JS</h1>
+				<h2>Vanilla JS, jQuery, Vue, React</h2>
+
+			</div>
+		</header>
+
+
+		<nav class="part2">
+
+			<label for="toggle"><img src="../images/menu.png" class="menuIcon" /></label><input id="toggle" class="toggle" type="checkbox"/>
+			
+			<ul class='navList'>
+				<li class="app"><a href="../index.html">Strona główna</a></li>
+				<li class="category">Vanilla JS</li>				
+				<li class="app"><a href="../calculator/calculator.html">Kalkulator</a></li>
+				<li class="app"><a href="../calculator2/calculator2.html">Kalkulator wektorowy</a></li>
+				<li class="app"><a href="../primefactors/primefactors.html">Rozkład na czynniki pierwsze</a></li>
+				<li class="app"><a href="../division/division.html">Dzielenie pisemne</a></li>
+				<li class="app"><a href="../life/life.html">Gra w życie</a></li>
+				<li class="app"><a href="../ant/ant.html">Mrówka Langtona</a></li>
+				<li class="app"><a href="../plane/plane.html">Płaszczyzna</a></li>
+				<li class="app"><a href="../tennis/tennis.html">Tenis</a></li>
+				<li class="app"><a href="../pokedex/pokedex.html">Pokédex</a></li>
+				<li class="category">jQuery</li>
+				<li class="app"><a href="../snake/snake.html">Wąż</a></li>
+				<li class="app"><a href="../naughtsandcrosses/naughtsandcrosses.html">Kółko i krzyżyk</a></li>
+				<li class="app"><a href="../chaturanga/chaturanga.html">Czaturanga</a></li>
+				<li class="category">React</li>
+				<li class="app"><a href="../memory/memory.html">Memory</a></li>
+				<li class="category">Vue</li>
+				<li class="app"><a href="../hangman/hangman.html">Wisielec</a></li>
+				<li class="app"><a href="../physics/physics.html">Cząstka na płaszczyźnie</a></li>
+				<li class="app"><a href="../transcription/transcription.html">Transkrypcja itd.</a></li>
+				<li class="app"><a href="../plasmids/plasmids.html">Plazmidy</a></li>
+				
+			</ul>
+
+		</nav>
+
+		<div class="part3">
+
+			<div class="inner">
+
+				<h2>Tenis</h2>
+
+				<div class="description">
+
+					Gra w odbijanie piłki. W trybie jednego gracza sterujemy przyciskami W (w górę) i S (w dół). W trybie dla dwóch graczy drugi gracz steruje P (w górę) i L (w dół).
+				
+				</div>
+
+
+<div class='buttons'>
+
+				<button id='startButton'>Start</button>
+<button id="showSettings" class='showSettings'>Zmień ustawienia</button>
+
+</div>
+
+
+
+
+
+
+				<canvas></canvas>
+
+<div id='settings' class='settings'>
+	<h6> Ustawienia </h6>
+	Kolor lewej: <select id="selectColor1">
+		<option value='red'>Czerwony</option>
+		<option value='orange'>Pomarańczowy</option>
+		<option value='yellow'>Żółty</option>
+		<option value='green'>Zielony</option>
+		<option value='turquoise'>Turkusowy</option>
+		<option value='blue'>Niebieski</option>
+		<option value='purple'>Fioletowy</option>
+		<option value='fuchsia'>Fuksja</option>
+		<option value='brown'>Brązowy</option>
+		<option value='gray'>Szary</option>
+	</select>
+	<br /><br />
+	Kolor prawej: <select id="selectColor2">
+		<option value='red'>Czerwony</option>
+		<option value='orange'>Pomarańczowy</option>
+		<option value='yellow'>Żółty</option>
+		<option value='green'>Zielony</option>
+		<option value='turquoise'>Turkusowy</option>
+		<option value='blue'>Niebieski</option>
+		<option value='purple'>Fioletowy</option>
+		<option value='fuchsia'>Fuksja</option>
+		<option value='brown'>Brązowy</option>
+		<option value='gray'>Szary</option>
+	</select>
+	<br/><br />
+	Liczba graczy
+	<br/>
+	<span id='spanRadio'>
+		<input type='radio' name='players' value='1' checked />1
+		<input type='radio' name='players' value='2'/> 2
+	</span>
+	<br/><br/>
+	<span id='selectMode'>Poziom trudności:
+		<select>
+			<option value='1'>Łatwy</option>
+			<option value='2' selected>Średni</option>
+			<option value='3'>Trudny</option>
+		</select>
+	</span>
+	<br/><br/>
+	Sposób odbijania <select id='selectBounce'>
+		<option value="1">1</option>
+		<option value="2" checked>2</option>
+	</select>
+	<a class='showExplanation'>?</a>
+	<span class='explanation'>Są do wyboru 2 sposoby odbijania się piłki od deski. W sposobie 1, kierunek piłki po odbiciu zależy od tego, czy w momencie odbicia deska stała nieruchomo, czy poruszała się się. Deska ruszająca się odbija piłkę pod większym kątem. <br/> W sposobie 2 różnica zależy od tego, którą częścią deski odbija się piłkę - brzegi deski odbijają pod większym kątem niż środek.</span>
+	<br/><br/>
+	<label for='strips'>Dodatkowe paski: </label> <input id='strips' type='checkbox'>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<script src="script.js"></script>
+	<script src="../script.js"></script>
+
+</body>
+</html>

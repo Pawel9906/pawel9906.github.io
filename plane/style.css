@@ -1,0 +1,79 @@
+.plane{
+	width: 500px;
+	height: 800px;
+	margin-right: auto;
+	margin-left: auto;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 520px 80px 120px auto;
+	grid-template-areas: 
+	"canvas canvas canvas canvas"
+	"empty gridCoordinates gridCoordinates gridChooseType"
+	"gridFirst gridFirst gridSecond gridSecond"
+	"gridCommon gridCommon gridCommon gridCommon";
+}
+
+canvas {
+	border: 5px solid #444444;
+	height: 500px;
+	width: 500px;
+	margin: 0 auto;
+	grid-area: canvas;
+}
+
+.gridCoordinates {
+	grid-area: gridCoordinates;	
+}
+
+.gridChooseType {
+	grid-area: gridChooseType;
+}
+
+.in {
+	padding-top: 20px
+}
+
+.gridCommon {
+	grid-area: gridCommon;
+}
+
+.gridFirst {
+	grid-area: gridFirst;
+	padding-left: 10px;
+}
+
+.gridSecond {
+	grid-area: gridSecond;
+}
+
+.deg {
+	position: relative;
+	left: 17px;
+}
+
+.generalData .deg {
+	left: 193px;
+}
+
+@media (max-width: 700px) {
+
+	.plane {
+		margin-right: auto;
+		margin-left: auto;
+		width: 420px;
+		grid-template-rows: 420px 80px 120px 40px;
+	}
+
+}
+
+@media (max-width: 470px) {
+
+	.plane {
+		margin-right: auto;
+		margin-left: auto;
+	    width: 260px;
+	    height: 550px;
+	    grid-template-rows: 270px 80px 120px 40px;
+	}
+	
+}

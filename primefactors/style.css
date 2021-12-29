@@ -1,0 +1,27 @@
+table {
+	margin: 40px;
+}
+
+td {
+	width: 100px;
+	vertical-align: top;
+	text-align: right;
+}
+
+td + td {
+	text-align: left;
+	border-left: 3px solid black;
+}
+
+.fromBothNumbers {
+	margin-top: 30px;
+}
+
+.inner > div {
+	margin-top: 40px;
+}
+
+input {
+	width: 75px;
+	margin-top: 15px;
+}

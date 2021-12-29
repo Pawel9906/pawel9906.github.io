@@ -1,0 +1,75 @@
+canvas {
+	z-index: -1;
+	display: block;
+}
+
+.optionsTable {
+	position: relative;
+	bottom: 900px;
+	width: 460px;
+	height: 500px;
+	background-color: white;
+	z-index: 1;
+	border: 1px solid black;
+	font-size: 14px;
+	padding: 2px;
+}
+
+.menuTable {
+	position: relative;
+	bottom: 500px;
+	width: 450px;
+	background-color: white;
+	z-index: 1;
+	text-align: center;
+	border: 5px solid black;
+	font-size: 14px;
+	border-spacing: 50px;
+}
+
+.L {
+	width: 200px;
+	font-size: 30px;
+	height: 50px;
+}
+
+.newGame2 {
+	border: 2px solid black;
+	position: relative;
+	left: 100px;
+	top: 350px;
+	width: 100px;
+	height: 30px;
+	font-size: 16px;
+	padding: 0;
+}
+
+.menu {
+	border: 2px solid black;
+	position: relative;
+	left: 160px;
+	top: 350px;
+	width: 100px;
+	height: 30px;
+	font-size: 16px;
+	padding: 0;
+}
+
+.helpText {
+	position: relative;
+	bottom: 500px;
+	width: 550px;
+	background-color: white;
+	z-index: 1;
+}
+
+.menu2 {
+	width: 100px;
+	height: 30px;
+	font-size: 12px;
+}
+
+.blank {
+	font-size: 48px;
+	color: white;
+}
