@@ -1,0 +1,64 @@
+.keyboard {
+	width: 450px;
+	padding: 20px;
+	border: 5px solid black;
+}
+
+button {
+	width: 30px;
+	height: 30px;
+	margin: 10px;
+
+}
+
+.L {
+	width: 140px;
+}
+
+
+button[disabled] {
+	background-color: silver;
+	color: black;
+}
+
+button[disabled]:hover {
+	background-color: silver;
+	color: black;
+	border-color: black;
+}
+
+.monospace {
+	font-family: monospace;
+}
+
+img {
+	border: 1px solid black;
+	display: block;
+	margin: 10px auto;
+}
+
+#app div, #app > button  {
+	display: block;
+	text-align: center;
+	margin: 10px auto;
+}
+
+@media(max-width: 550px) {
+
+	.keyboard {
+		width: 80vw;
+	}
+
+}
+
+@media(max-width: 313px) {
+
+	button {
+		margin: 5px;
+	}
+	
+	.keyboard {
+		padding: 10px;
+	}
+
+}

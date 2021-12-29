@@ -1,0 +1,69 @@
+textarea , input[type="text"], input[type="number"] {
+	border-radius: 10px;
+	padding: 5px;
+}
+
+textarea {
+	width: 420px;
+	height: 100px;
+}
+
+input[type="text"], input[type="number"] {
+	width: 210px;
+	height: 26px;
+}
+
+select {
+	width: 200px;
+}
+
+fieldset {
+	width: 400px;
+	margin-left: 20px;
+}
+
+.selectTitle {
+	width: 150px;
+	text-align: right;
+	float: left;
+	margin: 3px 10px;
+}
+
+.start {
+	width: 120px;
+	height: 50px;
+	font-size: 26px;
+	text-align: center;
+	border: 3px solid black;
+	border-radius: 25px;
+	margin: 15px;
+}
+
+* + .textareaTitle {
+	margin-top: 15px;
+}
+
+.textareaTitle {
+display: inline-block;
+margin-bottom: 5px
+}
+
+select {
+	margin: 3px 0;
+}
+
+
+@media(max-width: 460px) {
+
+	fieldset {
+		width: 200px;
+	}
+
+	.selectTitle {
+		float: none;
+	}
+
+	textarea {
+		width: 90vw;
+	}
+}

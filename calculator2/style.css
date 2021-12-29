@@ -1,0 +1,127 @@
+button {
+	height: 40px;
+	width: 40px;
+	font-size: 20px;
+	margin: 3px 1px;
+	border-radius: 25px;
+	text-align: center;
+}
+
+.screen {
+	font-size: 26px;
+	height: 62px;
+	padding: 5px;
+	width: 510px;
+	border: 1px solid black;
+	overflow-x: auto;
+	margin: 100px 20px 10px;
+	border-radius: 5px;
+}
+
+.center{
+	margin-left: 47px;
+}
+
+.buttons {
+	display: grid;
+	grid-template-rows: 140px auto;
+	grid-template-columns: 170px 210px auto;
+	grid-template-areas: "gridA gridB gridD"
+	"gridA gridC gridD";
+	margin-left: 40px;
+}
+
+.gridA{
+	grid-area: gridA;
+}
+
+.gridB{
+	grid-area: gridB;
+}
+
+.gridC{
+	grid-area: gridC;
+}
+
+.gridD{
+	grid-area: gridD;
+}
+
+@media(max-width: 950px) {
+
+	button {
+		height: 30px;
+		width: 30px;		
+	}
+
+	.screen {
+		width: 450px;
+	}
+
+	.buttons {
+		margin-left: 20px;
+		grid-template-rows: 110px auto;
+	}
+
+	.center{
+		margin-left: 40px;
+	}
+
+	.arrow {
+		position: relative;
+		right: 3px;
+	}
+
+}
+
+@media(max-width: 490px) {
+
+	button {
+		height: 25px;
+		width: 25px;
+		font-size: 16px;
+	}
+
+	.screen {
+		width: 300px;
+		font-size: 16px;
+		height: 36px;
+	}
+
+	.buttons {
+		grid-template-rows: 95px auto;
+		grid-template-columns: 105px 140px auto;
+	}
+
+	.center{
+		margin-left: 33px;
+	}
+}
+
+@media(max-width: 350px) {
+
+	button {
+		height: 18px;
+		width: 18px;
+		font-size: 10px;
+		border-radius: 0;
+		padding-right: 7px;
+		border-width: 2px;
+		margin: 1px;
+		margin-right: -3px;		
+	}
+
+	.screen {
+		width: 200px;
+	}
+
+	.buttons {
+		grid-template-rows: 60px auto;
+		grid-template-columns: 75px 85px auto;
+	}
+
+	.center {
+		margin-left: 22px;
+	}
+	
+}

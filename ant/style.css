@@ -1,0 +1,66 @@
+table {
+	border-collapse: collapse;
+	border: 2px solid #444444;
+	margin-top: 30px;
+}
+
+td {
+	border: 0px solid #444444;
+	width: 5px;
+	height: 5px;
+	font-size: 0em;
+	padding: 0;
+}
+
+button {
+	width: 50px;
+	height: 30px;
+	border-radius: 10px;
+	margin: 20px 10px 10px;
+}
+
+input {
+	width: 70px;
+	margin-right: 10px;
+}
+
+.info {
+	height: 18px
+}
+
+.info span {
+	margin: 0 10px;
+}
+
+.inner > div {
+	margin: 40px 20px;
+	width: 350px;
+}
+
+@media(max-width: 380px) {
+
+	table {
+		transform: scale(0.8);
+		margin-top: 10px;
+		margin-left: 10px;
+		margin-right: 0;
+	}
+
+	.inner > div {
+		margin-left: 0;
+		width: 90vw;
+	}
+
+	.info {
+		width: 200px;
+		height: 30px;
+	}
+}
+
+
+@media(max-width: 300px) {
+	td {
+		width: 4px;
+		height: 4px;
+	}
+}

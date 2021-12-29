@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="../style.css" rel="stylesheet" type="text/css" />
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<title>Kalkulator wektorowy</title>
+</head>
+
+<body>
+
+	<div class="page">
+
+		<header class="part1">
+			<div>
+
+				<h1>Aplikacje JS</h1>
+				<h2>Vanilla JS, jQuery, Vue, React</h2>
+
+			</div>
+		</header>
+
+
+		<nav class="part2">
+
+			<label for="toggle"><img src="../images/menu.png" class="menuIcon" /></label><input id="toggle" class="toggle" type="checkbox"/>
+			
+			<ul class='navList'>
+				<li class="app"><a href="../index.html">Strona główna</a></li>
+				<li class="category">Vanilla JS</li>				
+				<li class="app"><a href="../calculator/calculator.html">Kalkulator</a></li>
+				<li class="app"><a href="../calculator2/calculator2.html">Kalkulator wektorowy</a></li>
+				<li class="app"><a href="../primefactors/primefactors.html">Rozkład na czynniki pierwsze</a></li>
+				<li class="app"><a href="../division/division.html">Dzielenie pisemne</a></li>
+				<li class="app"><a href="../life/life.html">Gra w życie</a></li>
+				<li class="app"><a href="../ant/ant.html">Mrówka Langtona</a></li>
+				<li class="app"><a href="../plane/plane.html">Płaszczyzna</a></li>
+				<li class="app"><a href="../tennis/tennis.html">Tenis</a></li>
+				<li class="app"><a href="../pokedex/pokedex.html">Pokédex</a></li>
+				<li class="category">jQuery</li>
+				<li class="app"><a href="../snake/snake.html">Wąż</a></li>
+				<li class="app"><a href="../naughtsandcrosses/naughtsandcrosses.html">Kółko i krzyżyk</a></li>
+				<li class="app"><a href="../chaturanga/chaturanga.html">Czaturanga</a></li>
+				<li class="category">React</li>
+				<li class="app"><a href="../memory/memory.html">Memory</a></li>
+				<li class="category">Vue</li>
+				<li class="app"><a href="../hangman/hangman.html">Wisielec</a></li>
+				<li class="app"><a href="../physics/physics.html">Cząstka na płaszczyźnie</a></li>
+				<li class="app"><a href="../transcription/transcription.html">Transkrypcja itd.</a></li>
+				<li class="app"><a href="../plasmids/plasmids.html">Plazmidy</a></li>
+				
+			</ul>
+
+		</nav>
+
+		<div class="part3">
+
+			<div class="inner">
+
+
+
+				<h2>Kalkulator wektorowy</h4>
+
+					<div>
+
+						<p>
+							Kalkulator działający nie na skalarach, a na wektorach.	Kilka przyjętych przeze mnie konwencji wymaga wyjaśnienia:
+						</p> 
+						<ul>
+							<li>
+								Kropka to separator dziesiętny
+							</li>
+							<li>
+								Przecinek oddziela od siebie współrzędne
+							</li>
+							<li>
+								Iloczyn wektorowy x jest zdefiniowany dla 3 wymiarów - gdy wektor ma więcej niż 3 wymiary, nie jest możliwe wybranie iloczynu wektorowego.
+							</li>
+
+							<li>
+								Są dwa przyciski z minusem - pierwszy minus, umiejscowiony wśród działań, odpowiada za działanie odejmowania. Drugi, położony na lewo od przecinka, oznacza że liczba jest ujemna; może rozpoczynać jedną ze współrzędnych.
+							</li>
+						</ul>
+					</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<div id="screen" class="screen">[ ]</div>
+<div id="buttons" class="buttons">
+
+
+
+
+
+<div class='gridA'>
+<button id="n7">7</button>
+<button id="n8">8</button>
+<button id="n9">9</button>
+<br />
+<button id="n4">4</button>
+<button id="n5">5</button>
+<button id="n6">6</button>
+<br/>
+<button id="n1">1</button>
+<button id="n2">2</button>
+<button id="n3">3</button>
+<br/>
+<button id="n0" class="center">0</button>
+
+
+</div>
+
+<div class='gridB'>
+<button id="plus" class="space">+</button>
+<button id="minus">-</button>
+<button id="dotProduct" class="space">•</button>
+<button id="vectorProduct">x</button>
+</div>
+
+<div class='gridC'>
+	<button id="minus2" class="space">-</button>
+	<button id="dot">.</button>
+<button id="comma">,</button>
+<button id="equals">=</button>
+
+
+</div>
+
+<div class='gridD'>
+	<button id="c" class="space">C</button>
+	<button id="backspace" class="space"><span class='arrow'>←</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+
+	<script src="script.js"></script>
+	<script src="../script.js"></script>
+
+</body>
+</html>

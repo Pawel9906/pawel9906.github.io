@@ -1,0 +1,73 @@
+.inner > div {
+	max-width: 500px;
+	margin: 40px auto;
+	padding: 15px;
+	padding-right: 5px;
+	overflow: scroll;
+	border: 2px solid #444444;
+}
+
+button {
+	margin: 20px;
+}
+
+.monospace, .monospace > div  { /*samo .monospace nie działałoby*/
+	font-family: monospace;
+}
+
+.settings {
+	margin-bottom: 20px;
+	line-height: 20px;
+	width: 400px;
+	margin-right: 0;
+} 
+
+.underlined {
+	border-bottom: 2px solid black;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.finalField {
+	margin-top: 40px;
+}
+
+.settings input {
+	float: right;
+}
+
+input {
+	width: 300px;
+}
+
+.overlined {
+	border-top: 2px solid black;
+}
+
+@media(max-width: 470px) {
+
+	.settings {
+		width: 300px;
+	}
+
+	input {
+		width: 200px;
+	}
+
+}
+
+@media(max-width: 340px) {
+
+	.settings {
+		width: 300px;
+	}
+
+	input {
+		position: relative;
+		top: 20px;
+		right: 100px;
+	}
+
+}

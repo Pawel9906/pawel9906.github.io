@@ -1,0 +1,72 @@
+.inner > div { /*naprawa błędu na Edge i FF przy dużych rozmiarach */
+	max-width: 500px;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 420px auto;
+	grid-template-areas: "board"
+	"buttons";
+}
+
+.forCanvas {
+	grid-area: board;
+	margin-top: 30px
+}
+
+canvas, .buttons {
+	margin-left: 20px;
+}
+
+canvas + canvas {
+	position: relative;
+	bottom: 288px;
+	right: 4px;
+	border: 5px solid black;
+	opacity: 0.3;
+	}
+
+.buttons {	
+	grid-area: buttons;
+}
+
+.typical {
+	background-color: white;
+	width: 100px;
+	border: 2px solid purple;
+	border-radius: 5px;
+	color: black;
+	padding: 5px;
+	margin: 5px;
+}
+
+
+
+.typical:hover {
+	background-color: aliceblue;
+	color: purple;
+	border: 2px solid purple;
+	}
+
+#now {
+	color: blue;
+}
+
+@media(max-width: 470px) {
+	
+	.inner > div {
+		grid-template-rows: 270px auto;
+	}
+
+	.typical {
+		width: 70px;
+		font-size: 0.7em;
+	}
+
+	canvas, .buttons {
+		margin-left: 10px;
+	}
+
+}
+
+
+
+
