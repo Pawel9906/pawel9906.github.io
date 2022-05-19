@@ -1,0 +1,2016 @@
+
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<style type="text/css">
+
+		* {
+			font-family: "Arial", sans-serif;
+			font-size: 20px;
+
+		}
+
+		.displayFlex {
+			display: flex;
+		}
+
+		button {
+			height: 70px;
+			font-size: 26px;
+			text-align: bottom;
+			margin: 10px 3px 10px 3px;
+			border: 3px solid black;
+			background-color: white;
+		}
+
+		button:hover {
+			color: blue !important;
+			border: 3px solid blue !important;
+			background-color: aliceblue;
+		}
+
+		button.inactive {
+			background-color: lightgray;
+		}
+
+		button.purple {
+			color: purple;
+			border: 3px solid purple;
+
+		}
+
+		button.yellowgreen {
+			color: yellowgreen;
+			border: 3px solid yellowgreen;
+
+		}
+
+		button.green {
+			color: green;
+			border: 3px solid green;
+
+		}
+
+		button.red {
+			color: red;
+			border: 3px solid red;
+
+		}
+
+
+		button.S {
+			width: 80px;
+		}
+
+		button.S+ {
+			width: 95px;
+		}
+
+		button.M {
+			width: 130px;
+		}
+
+
+		button.M+{
+			width: 145px;
+		}
+
+
+		button.L{
+			width: 190px;
+		}
+
+		button.XL{
+			width: 250px;
+		}
+
+		button.invisible {
+			color: white;
+			border: white;
+			background-color: white;
+		}
+
+
+		input {
+			margin-left: 20px;
+		}
+
+
+
+
+
+		span.S {
+			font-size: 18px;
+		}
+	</style>
+</head>
+
+
+
+<body>
+
+	<!--
+	1 - Ag +
+	2 - Hg2 2+
+	3 - Pb 2+
+	4 - Hg 2+
+	5 - Bi 3+
+	6 - Cu 2+
+	7 - Cd 2+
+	8 - Sn 2+
+	9 - Sn 4+
+	10 - Sb 3+
+	11 - Sb 5+
+	12 - AsO3 3-
+	13 - AsO4 3-
+	14 - Fe 2+
+	15 - Fe 3+
+	16 - Co 2+
+	17 - Ni 2+
+	18 - Mn 2+
+    19 - Zn 2+
+	20 - Al 3+
+	21 - Cr 3+
+	22 - Ca 2+
+	23 - Sr 2+
+	24 - Ba 2+
+	25 - Mg 2+
+	26 - NH4 +
+	27 - K+
+	28 - Na+
+	29 - Li+
+
+
+	101 - Cl -
+	102 - Br -
+	103 - I -
+	104  - CN -
+	105  - SCN -
+	106 - [Fe(CN)6] 3-
+	107 - [Fe(CN)6] 4-
+	108 - ClO -
+
+	109 - S 2-
+	110 - NO2 -
+	111 - CH3COO -
+
+	112 - CO3 2-
+	113 - SO3 2-
+	114 - BO2 -
+	115 - C2O4 2-
+	116 - C4H4O6 2-8
+	117 - S2O3 2-
+	118 - CrO4 2-
+	119 - Cr2O7 2-
+	120 - PO4 3-
+	121 - AsO3 3-
+	122 - AsO4 3-
+
+	123 - MnO4 -
+	124 - ClO3 -
+	125 - ClO4 -
+	126 - NO3 -
+
+	127 - SO4 2-
+	128 - F-
+	129 - SiF6 2-
+
+	130 - SiO3 2-
+	131 - WO4 2-
+	
+
+
+-->
+
+<canvas id="canvas" height="200" width="200"></canvas>
+
+
+
+<div id="buttons">
+
+<!--
+	<p> <input v-model="phase" /> </p>
+	<p> <input v-model="group" /> </p>
+	<p> <input v-model="ion" /> </p>
+	<p> <input v-model="last" /> </p>
+-->
+
+
+
+<button class="purple" v-show="phase === 'start' || phase === 'main' || phase ==='check'"  @click="phase = 'new'">Nowy</button>	
+<button class="green" v-show="phase === 'start' || phase === 'main'"  @click="phase = 'options'">Opcje</button>	
+<button class="yellowgreen" v-show="phase === 'main' && group !== '0'"  @click="phase = 'check'">Sprawdź</button>	
+<button class="red" v-show="phase === 'check'"  @click="phase = 'main'; clear();">Powrót do analizy</button>
+<button class="red" v-show="phase === 'after' || phase === 'after2'"  @click="phase = 'main'; clear();">Cofnij</button>	
+<button class="red" class="red" v-show="phase === 'new'"  @click="back2()">Cofnij</button>	
+
+<br />
+
+
+
+<span v-show="phase === 'new'">
+
+	<span>
+
+		<button class="XL" v-if="allowK" @click="phase = 'main'; group = 'k'; newK(); clear();">Kation dowolnej grupy</button>	
+		<button class="XL inactive" v-else>Kation dowolnej grupy</button>
+		<button class="XL" v-if="allowA" @click="phase = 'main'; group = 'a'; newA(); clear();">Anion dowolnej grupy</button>	
+		<button class="XL inactive" v-else>Anion dowolnej grupy</button>
+	</span>
+
+	<br />
+	Grupy kationów wg Freseniusa
+
+
+
+	<span>
+
+
+		<br />
+		<button class="S" v-if="allowK1" @click="phase = 'main'; group = 'k1'; newK1(); clear();">I</button>	
+		<button class="S inactive" v-else>I</button>
+		<button class="S" v-if="allowK2" @click="phase = 'main'; group = 'k2'; newK2(); clear();">II</button>
+		<button class="S inactive" v-else>II</button>
+		<button class="S" v-if="allowK2a" @click="phase = 'main'; group = 'k2a'; newK2a(); clear();">IIA</button>	
+		<button class="S inactive" v-else>IIA</button>
+		<button class="S" v-if="allowK2b" @click="phase = 'main'; group = 'k2b'; newK2b(); clear();">IIB</button>		
+		<button class="S inactive" v-else>IIIB</button>
+		<button class="S" v-if="allowK3" @click="phase = 'main'; group = 'k3'; newK3(); clear();">III</button>	
+		<button class="S inactive" v-else>III</button>
+		<button class="S" v-if="allowK4" @click="phase = 'main'; group = 'k4'; newK4(); clear();">IV</button>	
+		<button class="S inactive" v-else>IV</button>
+		<button class="S" v-if="allowK5" @click="phase = 'main'; group = 'k5'; newK5(); clear();">V</button>	
+		<button class="S inactive" v-else>V</button>
+
+		<br />
+
+	</span>
+
+	Grupy anionów wg Mellera
+
+	<span>
+		<br />
+		<button class="S" v-if="allowA1m" @click="phase = 'main'; group = 'a1m'; newA1m(); clear();">I</button>	
+		<button class="S inactive" v-else>I</button>
+		<button class="S" v-if="allowA2m" @click="phase = 'main'; group = 'a2m'; newA2m(); clear();">II</button>	
+		<button class="S inactive" v-else>II</button>
+		<button class="S" v-if="allowA3m" @click="phase = 'main'; group = 'a3m'; newA3m(); clear();">III</button>	
+		<button class="S inactive" v-else>III</button>
+		<button class="S" v-if="allowA4m" @click="phase = 'main'; group = 'a4m'; newA4m(); clear();">IV</button>	
+		<button class="S inactive" v-else>IV</button>
+
+		<br />
+	</span>
+
+	Grupy anionów wg Bunsena
+	<br />
+	<span>
+		<button class="S" v-if="allowA1b" @click="phase = 'main'; group = 'a1b'; newA1b(); clear();">I</button>	
+		<button class="S inactive" v-else>I</button>
+		<button class="S" v-if="allowA2b" @click="phase = 'main'; group = 'a2b'; newA2b(); clear();">II</button>	
+		<button class="S inactive" v-else>II</button>
+		<button class="S" v-if="allowA3b" @click="phase = 'main'; group = 'a3b'; newA3b(); clear();">III</button>
+		<button class="S inactive" v-else>III</button>
+		<button class="S" v-if="allowA4b" @click="phase = 'main'; group = 'a4b'; newA4b(); clear();">IV</button>	
+		<button class="S inactive" v-else>IV</button>
+		<button class="S" v-if="allowA5b" @click="phase = 'main'; group = 'a5b'; newA5b(); clear();">V</button>	
+		<button class="S inactive" v-else>V</button>
+		<button class="S" v-if="allowA6b" @click="phase = 'main'; group = 'a6b'; newA6b(); clear();">VI</button>	
+		<button class="S inactive" v-else>VI</button>
+		<button class="S" v-if="allowA7b" @click="phase = 'main'; group = 'a7b'; newA7b(); clear();">VII</button>
+		<button class="S inactive" v-else>VII</button>
+
+	</span>	
+
+</span>
+
+<span class="displayFlex" v-show="phase === 'main'" @click="phase = 'after'">
+
+	<button class="M" v-show="group === 'k1' || group === 'k'" @click="HCl()">HCl</button>	
+	<button class="M" v-show="group === 'k2' || group === 'k2a' || group === 'k2b' || group === 'k'" @click="AKT2()">AKT <br /> <span class="S"> pH=0.5</span></button>	
+	<button class="M" v-show="group === 'k3' || group === 'k'"  @click="AKT3()">AKT <br /> <span class="S"> pH=8.5</span></button>
+	<button class="M+" v-show="group === 'k4'"  @click="NH42CO3()">(NH<sub>4</sub>)<sub>2</sub>CO<sub>3</sub></button>
+
+
+
+
+	<button class="M" v-show="group === 'k1' || group === 'k2' || group === 'k2a' || group === 'k2b' || group === 'k3' || group === 'k4'" @click="KOH()">KOH</button> <!--tu zmieniłem -->	
+	<button class="M" v-show="group === 'k1' || group === 'k2' || group === 'k2a' || group === 'k2b' || group === 'k3'" @click="NH3()">NH<sub>3</sub></button>	
+	<button class="M" v-show="group === 'k1' || group === 'k2' || group === 'k2a' || group === 'k2b'" @click="KI()">KI</button>
+
+	<button class="M+" v-show="group === 'k1' || group === 'k2' || group === 'k2a' || group === 'k4' || group === 'k'"  @click="H2SO4()">H<sub>2</sub>SO<sub>4</sub></button>
+
+
+
+	<button class="M" v-show="group === 'k1' || group === 'k4'" @click="K2CrO4()">K<sub>2</sub>CrO<sub>4</sub></button>
+	<button class="M" v-show="group === 'k2' || group === 'k2b'" @click="AgNO3()">AgNO<sub>3</sub></button>
+
+	<button class="M" v-show="group === 'k2' || group === 'k2b'" @click="NaOH()">NaOH</button>
+
+	<button class="M" v-show="group === 'k3'" @click="KSCN()">KSCN</button>
+	<button class="M" v-show="group === 'k3'" @click="H2DMG()">H<sub>2</sub>DMG</button>
+	<button class="M+" v-show="group === 'k3'" @click="K2HgSCN4()">K<sub>2</sub>[Hg(SCN)<sub>4</sub>]</button>
+	<button class="M+" v-show="group === 'k3'" @click="K3FeCN6()">K<sub>3</sub>[Fe(CN)<sub>6</sub>]</button>
+	<button class="M+" v-show="group === 'k3'" @click="K4FeCN6()">K<sub>4</sub>[Fe(CN)<sub>6</sub>]</button>
+
+	<button class="M" v-show="group === 'k4'" @click="ww()">Woda wapienna</button>
+	<button class="M" v-show="group === 'k4'" @click="ww()">(NH<sub>4</sub>)SO<sub>4</sub></button>
+	<button class="M+" v-show="group === 'k4'" @click="NH42C2O4()">(NH<sub>4</sub>)<sub>2</sub>C<sub>2</sub>O<sub>4</sub></button>
+	<button class="M" v-show="group === 'k4'" @click="NH42C2O4()">Na<sub>2</sub>HPO<sub>4</sub></button>
+	<button class="M+" v-show="group === 'k4'" @click="K4FeCN6()">NH<sub>4</sub>Cl, K<sub>4</sub>[Fe(CN)<sub>6</sub>]</button>
+
+	<table><tr><td>
+		<span class="displayFlex" v-show="group === 'k5'">
+			<button class="M" @click="KOH()">KOH</button> <!-- i tu -->
+			<button class="M" @click="K2HgI4()">K<sub>2</sub>[HgI<sub>4</sub>], KOH</button>
+			<button class="M" @click="NaHPO4()">NaHPO<sub>4</sub>, NH<sub>3</sub></button>
+			<button class="M" @click="titanYellow()">Żółcień tytanowa</button>
+		</span> <!-- tu po raz trzeci -->
+	</td></tr><tr><td>
+		<span class="displayFlex" v-show="group === 'k5'">
+			<button class="M" @click="kHClO4()">HClO<sub>4</sub></button>
+			<button class="M+" @click="kHClO4()">NaHC<sub>4</sub>H<sub>4</sub>O<sub>6</sub></button>
+			<button class="M+" @click="kHClO4()">Na(C<sub>6</sub>H<sub>5</sub>)<sub>4</sub></button>
+			<button class="L" @click="Na3CoNO26()">Na<sub>3</sub>[Co(NO<sub>2</sub>)<sub>6</sub>] <br /> <span class="small"> 5 < pH < 7 </span></button>
+			<button class="M+" @click="KSbOH6">K[Sb(OH)<sub>6</sub>]</button>
+			<button class="M" @click="Na2CO3">Na<sub>2</sub>CO<sub>3</sub></button>
+		</span>
+	</td></tr></table>
+
+
+
+
+	<span class="displayFlex" v-show="group[0] === 'a'">
+
+		<button class="M" @click="AgNO3();">AgNO<sub>3</sub></button>	
+		<button class="M" @click="BaNO32();">Ba(NO<sub>3</sub>)<sub>2</sub></button>
+
+		<button class="M" @click="KMnO4();">KMnO<sub>4</sub> <span class="S"> H<sub>2</sub>SO<sub>4</sub></span></button>	
+		<button class="M" @click="KItoulene();">KI, toulen</button>	
+
+
+		<button class="M" @click="HClO4();">HClO<sub>4</sub></button>	
+
+		<button class="M" @click="FeCl3();">FeCl<sub>3</sub></button>	
+
+		<button class="L" @click="evaporationAndH2SO4();">Odparowanie, H<sub>2</sub>SO<sub>4</sub></button>	
+
+		<button class="M" v-show="group === 'a' || group === 'a6b'" @click="NaCl();">NaCl</button>	
+
+	</span>
+</span>
+
+
+<span class="displayFlex"  v-show="phase === 'after'" @click="phase='after2'">
+	<button class="M" v-show="(group === 'k1' || group ==='k2' || group === 'k2a' || group ==='k2b' || group === 'k3') && (last === 'HCl' || last === 'KOH' || last === 'NH3' || last === 'KI')"  @click="more()">Nadmiar</button>
+	<button class="M" v-show="last === 'AKT2' && group === 'k2a'"  @click="rHNO3()">HNO<sub>3</sub></button> 
+	<button class="M" v-show="last === 'AKT2' && group[0]+group[1] === 'k2'"  @click="rKOH()">KOH</button>
+	<button class="M" v-show="last === 'AKT2' && group[0]+group[1] === 'k2'"  @click="rKOHH2O2()">KOH + H<sub>2</sub>O<sub>2</sub></button>
+	<button class="M" v-show="last === 'AKT2' && group === 'k2b'"  @click="rNH42S()">(NH<sub>4</sub>)<sub>2</sub>S</button>
+	<button class="M" v-show="last === 'AKT2' && group[0]+group[1] === 'k2'"  @click="rNH42S2()">(NH<sub>4</sub>)<sub>2</sub>S<sub>2</sub></button>
+	<button class="M+" v-show="last === 'AKT2' && group === 'k2b'"  @click="rNH42CO3">(NH<sub>4</sub>)<sub>2</sub>CO<sub>3</sub></button>
+	<button class="M" v-show="group === 'k3' && last === 'AKT3'"  @click="rHCl()">HCl</button>
+	<button class="M" v-show="group === 'k3' && last === 'KOH'"  @click="rH2O2()">H<sub>2</sub>O<sub>2</sub></button>
+	<button class="M+" v-show="group === 'k4' && last === 'K2CrO4'"  @click="rCH3COOH()">CH<sub>3</sub>COOH</button>
+	<button class="M" v-show="group === 'k4' && last === 'NH42C2O4'"  @click="rH2SO4()">H<sub>2</sub>SO<sub>4</sub></button>
+
+
+	<button class="M" v-show="(group[0] === 'a') && (last === 'AgNO3' || last === 'BaNO32')"  @click="raHNO3()"> HNO<sub>3</sub></button>
+	<button class="M" v-show="last === 'KMnO4' || last === 'eH2SO4' || (      last === 'HClO4' && (group === 'a7b' || (group === 'a' && ion > 129)     )     )" @click="heat();"> Ogrzej </button>
+
+</span>
+
+<button class="M" v-show="phase === 'after2' && (     ( last === 'HClO4' && ion > 129 ) || last === 'H2O2')" @click="heat();"> Ogrzej! </button>
+
+
+<span v-show="phase === 'check'">
+
+
+
+
+	<span v-show="group === 'k1'">
+		<button class="S" v-show="allowed.indexOf(1) !== -1" @click="answer(1)">Ag<sup>+</sup></button>
+		<button class="S" v-show="allowed.indexOf(2) !== -1" @click="answer(2)">Hg<sub>2</sub><sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(3) !== -1" @click="answer(3)">Pb<sup>2+</sup></button>
+	</span>
+
+
+
+	<span v-show="group === 'k2a' || group === 'k2'">
+		<button class="S" v-show="allowed.indexOf(3) !== -1"  @click="answer(3)">Pb<sup>2+</sup></button>
+
+		<button class="S" v-show="allowed.indexOf(4) !== -1"  @click="answer(4)">Hg<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(5) !== -1"  @click="answer(5)">Bi<sup>3+</sup></button>
+		<button class="S" v-show="allowed.indexOf(6) !== -1"  @click="answer(6)">Cu<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(7) !== -1"  @click="answer(7)">Cd<sup>2+</sup></button>
+	</span>
+
+	<span v-show="group === 'k2b' || group === 'k2'">
+
+		<button class="S"  v-show="allowed.indexOf(8) !== -1" @click="answer(8)">Sn<sup>2+</sup></button>
+		<button class="S"  v-show="allowed.indexOf(9) !== -1" @click="answer(9)">Sn<sup>4+</sup></button>
+		<button class="S" v-show="allowed.indexOf(10) !== -1"  @click="answer(10)">Sb<sup>3+</sup></button>
+		<button class="S" v-show="allowed.indexOf(11) !== -1"  @click="answer(11)">Sb<sup>5+</sup></button>
+		<button class="S+" v-show="allowed.indexOf(12) !== -1"  @click="answer(12)">As<sup>3+</sup></button>
+		<button class="S+" v-show="allowed.indexOf(13) !== -1"  @click="answer(13)">As<sup>5+</sup></button>
+	</span>
+
+	<span v-show="group === 'k3'">
+
+		<button class="S" v-show="allowed.indexOf(14) !== -1"  @click="answer(14)">Fe<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(15) !== -1"  @click="answer(15)">Fe<sup>3+</sup></button>
+		<button class="S" v-show="allowed.indexOf(16) !== -1"  @click="answer(16)">Co<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(17) !== -1"  @click="answer(17)">Ni<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(18) !== -1"  @click="answer(18)">Mn<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(19) !== -1"  @click="answer(19)">Zn<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(20) !== -1"  @click="answer(20)">Al<sup>3+</sup></button>
+		<button class="S" v-show="allowed.indexOf(21) !== -1"  @click="answer(21)">Cr<sup>3+</sup></button>
+
+	</span>
+
+	<span v-show="group === 'k4'">
+
+		<button class="S" v-show="allowed.indexOf(22) !== -1"  @click="answer(22)">Ca<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(23) !== -1"  @click="answer(23)">Sr<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(24) !== -1"  @click="answer(24)">Ba<sup>2+</sup></button>
+
+	</span>
+
+	<span v-show="group === 'k5'">
+
+		<button class="S" v-show="allowed.indexOf(25) !== -1"  @click="answer(25)">Mg<sup>2+</sup></button>
+		<button class="S" v-show="allowed.indexOf(26) !== -1"  @click="answer(26)">NH<sub>4</sub><sup>+</sup></button>
+		<button class="S" v-show="allowed.indexOf(27) !== -1"  @click="answer(27)">K<sup>+</sup></button>
+		<button class="S" v-show="allowed.indexOf(28) !== -1"  @click="answer(28)">Na<sup>+</sup></button>
+		<button class="S" v-show="allowed.indexOf(29) !== -1"  @click="answer(29)">Li<sup>+</sup></button>
+
+	</span>
+
+	<span v-show="group === 'k'">
+
+		<button class="S" v-if="allowK1"  @click="answerGroup(1)">I</button>
+		<button class="S inactive" v-else>I</button>
+		<button class="S" v-if="allowK2"  @click="answerGroup(2)">II</button>
+		<button class="S inactive" v-else>II</button>
+		<button class="S" v-if="allowK3"  @click="answerGroup(3)">III</button>
+		<button class="S inactive" v-else>III</button>
+		<button class="S" v-if="allowK4"  @click="answerGroup(4)">IV</button>
+		<button class="S inactive" v-else>IV</button>
+		<button class="S" v-if="allowK5"  @click="answerGroup(5)">V</button>
+		<button class="S inactive" v-else>V</button>
+
+	</span>
+
+
+
+
+	<span v-show="group === 'a1m'">
+
+		<button class="S" v-show="allowed.indexOf(112) !== -1"  @click="answer(112)">CO<sub>3</sub><sup>2-</sup></button>
+		<button class="S" v-show="allowed.indexOf(113) !== -1"  @click="answer(113)">SO<sub>3</sub><sup>2-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(117) !== -1"  @click="answer(117)">S<sub>2</sub>O<sub>3</sub><sup>2-</sup></button>
+		<button class="S"  v-show="allowed.indexOf(109) !== -1" @click="answer(109)">S<sup>2-</sup></button>
+		<button class="S" v-show="allowed.indexOf(110) !== -1"  @click="answer(110)">NO<sub>2</sub><sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(104) !== -1"  @click="answer(104)">CN<sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(108) !== -1"  @click="answer(108)">ClO<sup>-</sup></button>
+
+	</span>
+
+	<span v-show="group === 'a2m'">
+
+
+		<button class="S" v-show="allowed.indexOf(101) !== -1"  @click="answer(101)">Cl<sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(102) !== -1"  @click="answer(102)">Br<sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(103) !== -1"  @click="answer(103)">I<sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(104) !== -1"  @click="answer(105)">SCN<sup>-</sup></button>
+		<button class="L" v-show="allowed.indexOf(106) !== -1"  @click="answer(106)">[Fe(CN)<sub>6</sub>]<sup>3-</sup></button>
+		<button class="L" v-show="allowed.indexOf(107) !== -1"  @click="answer(107)">[Fe(CN)<sub>6</sub>]<sup>4-</sup></button>
+	</span>
+
+	<span v-show="group === 'a3m'">
+
+
+		<button class="S+" v-show="allowed.indexOf(121) !== -1"  @click="answer(121)">AsO<sub>3</sub><sup>3-</sup></button>
+		<button class="S+"  v-show="allowed.indexOf(122) !== -1" @click="answer(122)">AsO<sub>4</sub><sup>3-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(120) !== -1"  @click="answer(120)">PO<sub>4</sub><sup>3-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(118) !== -1"  @click="answer(118)">CrO<sub>4</sub><sup>2-</sup></button>
+		<button class="S" v-show="allowed.indexOf(114) !== -1"  @click="answer(114)">BO<sub>2</sub><sup>-</sup></button>
+
+		<button class="L" v-show="allowed.indexOf(111) !== -1"  @click="answer(111)">CH<sub>3</sub>COO<sup>-</sup></button>
+		<button class="L" v-show="allowed.indexOf(115) !== -1"  @click="answer(115)">C<sub>4</sub>H<sub>4</sub>O<sub>6</sub><sup>2-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(116) !== -1"  @click="answer(116)">C<sub>2</sub>O<sub>4</sub><sup>2-</sup></button>
+	</span>
+
+
+	<span v-show="group === 'a4m'">
+
+
+		<button class="S+" v-show="allowed.indexOf(123) !== -1"  @click="answer(123)">MnO<sub>4</sub><sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(124) !== -1"  @click="answer(124)">ClO<sub>3</sub><sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(125) !== -1"  @click="answer(125)">ClO<sub>4</sub><sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(126) !== -1"  @click="answer(126)">NO<sub>3</sub><sup>-</sup></button>
+
+		<button class="S" v-show="allowed.indexOf(127) !== -1"  @click="answer(127)">SO<sub>4</sub><sup>2-</sup></button>
+		<button class="S" v-show="allowed.indexOf(128) !== -1"  @click="answer(128)">F<sup>-</sup></button>
+	</span>
+
+
+
+
+	<span v-show="group === 'a1b' || group === 'a'">
+		<button class="S" v-show="allowed.indexOf(101) !== -1"  @click="answer(101)">Cl<sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(102) !== -1"  @click="answer(102)">Br<sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(103) !== -1"  @click="answer(103)">I<sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(104) !== -1"  @click="answer(104)">CN<sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(105) !== -1"  @click="answer(105)">SCN<sup>-</sup></button>
+		<button class="L" v-show="allowed.indexOf(106) !== -1"  @click="answer(106)">[Fe(CN)<sub>6</sub>]<sup>3-</sup></button>
+		<button class="L" v-show="allowed.indexOf(107) !== -1"  @click="answer(107)">[Fe(CN)<sub>6</sub>]<sup>4-</sup></button>
+		<button class="S" v-show="allowed.indexOf(108) !== -1"  @click="answer(108)">ClO<sup>-</sup></button>
+	</span>
+
+	<span v-show="group === 'a2b' || group === 'a'">
+		<button class="S" v-show="allowed.indexOf(109) !== -1"  @click="answer(109)">S<sup>2-</sup></button>
+		<button class="S" v-show="allowed.indexOf(110) !== -1"  @click="answer(110)">NO<sub>2</sub><sup>-</sup></button>
+		<button class="L" v-show="allowed.indexOf(111) !== -1"  @click="answer(111)">CH<sub>3</sub>COO<sup>-</sup></button>
+	</span>
+
+
+	<span v-show="group === 'a3b' || group === 'a'">
+		<button class="S" v-show="allowed.indexOf(112) !== -1"  @click="answer(112)">CO<sub>3</sub><sup>2-</sup></button>
+		<button class="S" v-show="allowed.indexOf(113) !== -1"  @click="answer(113)">SO<sub>3</sub><sup>2-</sup></button>
+		<button class="S" v-show="allowed.indexOf(114) !== -1"  @click="answer(114)">BO<sub>2</sub><sup>-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(115) !== -1"  @click="answer(115)">C<sub>2</sub>O<sub>4</sub><sup>2-</sup></button>
+		<button class="L" v-show="allowed.indexOf(116) !== -1"  @click="answer(116)">C<sub>4</sub>H<sub>4</sub>O<sub>6</sub><sup>2-</sup></button>
+
+	</span>
+
+
+
+	<span v-show="group === 'a4b' || group === 'a'">
+		<button class="S+" v-show="allowed.indexOf(117) !== -1"  @click="answer(117)">S<sub>2</sub>O<sub>3</sub><sup>2-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(118) !== -1"  @click="answer(118)">CrO<sub>4</sub><sup>2-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(119) !== -1"  @click="answer(119)">Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(120) !== -1"  @click="answer(120)">PO<sub>4</sub><sup>3-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(121) !== -1"  @click="answer(121)">AsO<sub>3</sub><sup>3-</sup></button>
+		<button class="S+" v-show="allowed.indexOf(122) !== -1"  @click="answer(122)">AsO<sub>4</sub><sup>3-</sup></button>
+
+
+	</span>
+
+
+
+
+	<span v-show="group === 'a5b' || group === 'a'">
+		<button class="S+" v-show="allowed.indexOf(123) !== -1"  @click="answer(123)">MnO<sub>4</sub><sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(124) !== -1"  @click="answer(124)">ClO<sub>3</sub><sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(125) !== -1"  @click="answer(125)">ClO<sub>4</sub><sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(126) !== -1"  @click="answer(126)">NO<sub>3</sub><sup>-</sup></button>
+	</span>
+
+
+	<span v-show="group === 'a6b' || group === 'a'">
+		<button class="S" v-show="allowed.indexOf(127) !== -1"  @click="answer(127)">SO<sub>4</sub><sup>2-</sup></button>
+		<button class="S" v-show="allowed.indexOf(128) !== -1"  @click="answer(128)">F<sup>-</sup></button>
+		<button class="S" v-show="allowed.indexOf(129) !== -1"  @click="answer(129)">SiF<sub>6</sub><sup>2-</sup></button>
+	</span>
+
+
+	<span v-show="group === 'a7b' || group === 'a'">
+		<button class="M" v-show="allowed.indexOf(130) !== -1"  @click="answer(130)">SiO<sub>3</sub><sup>2-</sup></button>
+		<button class="M" v-show="allowed.indexOf(131) !== -1"  @click="answer(131)">WO<sub>4</sub><sup>2-</sup></button>
+	</span>
+
+
+
+
+</span>
+
+
+
+<span v-show="phase === 'options'">
+	<input type="checkbox" id="1" checked /> <label for="1">Ag<sup>+</sup></label> 
+	<input type="checkbox" id="2" checked /> <label for="2">Hg<sub>2</sub><sup>2+</sup></label> 
+
+
+
+	<input type="checkbox" id="3" checked /> <label for="3">Pb<sup>2+</sup></label> <br />
+
+
+	<input type="checkbox" id="4" checked /> <label for="4">Hg<sup>2+</sup></label> 
+
+	<input type="checkbox" id="5" checked /> <label for="5">Bi<sup>3+</sup></label> 
+
+	<input type="checkbox" id="6" checked /> <label for="6">Cu<sup>2+</sup></label> 
+
+	<input type="checkbox" id="7" checked /> <label for="7">Cd<sup>2+</sup></label> 
+
+
+	<input type="checkbox" id="8" checked /> <label for="8">Sn<sup>2+</sup></label> 
+
+	<input type="checkbox" id="9" checked /> <label for="9">Sn<sup>4+</sup></label> 
+
+	<input type="checkbox" id="10" checked /> <label for="10">Sb<sup>3+</sup></label> 
+
+	<input type="checkbox" id="11" checked /> <label for="11">Sb<sup>5+</sup></label> 
+
+	<input type="checkbox" id="12" checked /> <label for="12">As<sup>3+</sup></label> 
+
+	<input type="checkbox" id="13" checked /> <label for="13">As<sup>5+</sup></label> <br />
+
+
+	<input type="checkbox" id="14" checked /> <label for="14">Fe<sup>2+</sup></label>
+
+	<input type="checkbox" id="15" checked /> <label for="15">Fe<sup>3+</sup></label>
+
+	<input type="checkbox" id="16" checked /> <label for="16">Co<sup>2+</sup></label>
+
+	<input type="checkbox" id="17" checked /> <label for="17">Ni<sup>2+</sup></label>
+
+	<input type="checkbox" id="18" checked /> <label for="18">Mn<sup>2+</sup></label>
+
+	<input type="checkbox" id="19" checked /> <label for="19">Zn<sup>2+</sup></label>
+
+	<input type="checkbox" id="20" checked /> <label for="20">Al<sup>3+</sup></label> 
+
+	<input type="checkbox" id="21" checked /> <label for="21">Cr<sup>3+</sup></label> <br />
+
+
+
+	<input type="checkbox" id="22" checked /> <label for="22">Ca<sup>2+</sup></label> 
+
+	<input type="checkbox" id="23" checked /> <label for="23">Sr<sup>2+</sup></label> 
+
+	<input type="checkbox" id="24" checked /> <label for="24">Ba<sup>2+</sup></label> <br />
+
+
+
+	<input type="checkbox" id="25" checked /> <label for="25">Mg<sup>2+</sup></label> 
+
+	<input type="checkbox" id="26" checked /> <label for="26">NH<sub>4</sub><sup>+</sup></label> 
+
+	<input type="checkbox" id="27" checked /> <label for="27">K<sup>+</sup></label> 
+
+	<input type="checkbox" id="28" checked /> <label for="28">Na<sup>+</sup></label> 
+
+	<input type="checkbox" id="29" checked /> <label for="29">Li<sup>+</sup></label> 
+
+	<br />
+
+	<input type="checkbox" id="101" checked /> <label for="101">Cl<sup>-</sup></label>
+	<input type="checkbox" id="102" checked /> <label for="102">Br<sup>-</sup></label>
+	<input type="checkbox" id="103" checked /> <label for="103">I<sup>-</sup></label>
+	<input type="checkbox" id="104" checked /> <label for="104">CN<sup>-</sup></label>
+	<input type="checkbox" id="105" checked /> <label for="105">SCN<sup>-</sup></label>
+	<input type="checkbox" id="106" checked /> <label for="106">[Fe(CN)<sub>6</sub>]<sup>3-</sup></label>
+	<input type="checkbox" id="107" checked /> <label for="107">[Fe(CN)<sub>6</sub>]<sup>4-</sup></label>
+	<input type="checkbox" id="108" checked /> <label for="108">ClO<sup>-</sup></label>
+
+	<br />
+
+	<input type="checkbox" id="109" checked /> <label for="109">S<sup>2-</sup></label>
+	<input type="checkbox" id="110" checked /> <label for="110">NO<sub>2</sub><sup>-</sup></label>
+	<input type="checkbox" id="111" checked /> <label for="111">CH<sub>3</sub>COO<sup>-</sup></label>
+
+	<br />
+
+	<input type="checkbox" id="112" checked /> <label for="112">CO<sub>3</sub><sup>2-</sup></label>
+	<input type="checkbox" id="113" checked /> <label for="113">SO<sub>3</sub><sup>2-</sup></label>
+	<input type="checkbox" id="114" checked /> <label for="114">BO<sub>2</sub><sup>-</sup></label>
+	<input type="checkbox" id="115" checked /> <label for="115">C<sub>2</sub>O<sub>4</sub><sup>2-</sup></label>
+	<input type="checkbox" id="116" checked /> <label for="116">C<sub>4</sub>H<sub>4</sub>O<sub>6</sub><sup>2-</sup></label>
+
+	<br />
+
+	<input type="checkbox" id="117" checked /> <label for="117">S<sub>2</sub>O<sub>3</sub><sup>2-</sup></label>
+	<input type="checkbox" id="118" checked /> <label for="118">CrO<sub>4</sub><sup>2-</sup></label>
+	<input type="checkbox" id="119" checked /> <label for="119">Cr<sub>2</sub>O<sub>7</sub><sup>2-</sup></label>
+	<input type="checkbox" id="120" checked /> <label for="120">PO<sub>4</sub><sup>3-</sup></label>
+	<input type="checkbox" id="121" checked /> <label for="121">AsO<sub>3</sub><sup>3-</sup></label>
+	<input type="checkbox" id="122" checked /> <label for="122">AsO<sub>4</sub><sup>3-</sup></label>
+
+	<br />
+
+	<input type="checkbox" id="123" checked /> <label for="123">MnO<sub>4</sub><sup>-</sup></label>
+	<input type="checkbox" id="124" checked /> <label for="124">ClO<sub>3</sub><sup>-</sup></label>
+	<input type="checkbox" id="125" checked /> <label for="125">ClO<sub>4</sub><sup>-</sup></label>
+	<input type="checkbox" id="126" checked /> <label for="126">NO<sub>3</sub><sup>-</sup></label>
+
+	<br />
+
+	<input type="checkbox" id="127" checked /> <label for="127">SO<sub>4</sub><sup>2-</sup></label>
+	<input type="checkbox" id="128" checked /> <label for="128">F<sup>-</sup></label>
+	<input type="checkbox" id="129" checked /> <label for="129">SiF<sub>6</sub><sup>2-</sup></label>
+
+	<br />
+
+	<input type="checkbox" id="130" checked /> <label for="130">SiO<sub>3</sub><sup>2-</sup></label>
+	<input type="checkbox" id="131" checked /> <label for="131">WO<sub>4</sub><sup>2-</sup></label>
+
+	<br />
+
+	
+
+	<button class="M"  @click="changeOptions(); back2();">Zatwierdź</button>
+
+
+
+
+</span>
+
+
+
+</div>	
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+
+
+
+<script> 
+
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext("2d");
+
+
+
+
+
+
+
+
+	var v = new Vue({
+		el: '#buttons',
+		data: {
+			phase: "start",
+			group: "0",
+			ion: 0,
+			last: "",
+
+			allowed: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131],
+
+
+			allowK1: true,
+			allowK2: true,
+			allowK2a: true,
+			allowK2b: true,
+			allowK3: true,
+			allowK4: true,
+			allowK5: true,
+
+			allowA1b: true,
+			allowA2b: true,
+			allowA3b: true,
+			allowA4b: true,
+			allowA5b: true,
+			allowA6b: true,
+			allowA7b: true,
+
+			allowA1m: true,
+			allowA2m: true,
+			allowA3m: true,
+			allowA4m: true,
+
+			allowK: true,
+			allowA: true,
+		},
+		methods: {
+			getRandomNumber: function (a, b) {
+				return Math.floor(Math.random() * (b - a + 1)) + a;
+			},
+			clear: function () {
+				v.clearMax();
+				if (v.ion == 6) {
+					v.solution("Aqua");
+				} else if (v.ion == 14) {
+					v.solution("LightGreen");
+				} else if (v.ion == 15) {
+					v.solution("Khaki");
+				} else if (v.ion == 16) {
+					v.solution("Pink");
+				} else if (v.ion == 17) {    //ogólnie to tu mogą być póki co błędy - do sprawdzenia!
+					v.solution("Green");
+				} else if (v.ion == 21) {
+					v.solution("Green");
+				} else if (v.ion == 106) {
+					v.solution("Brown");
+				} else if (v.ion == 107) {
+					v.solution("Yellow");
+				} else if (v.ion == 118) {
+					v.solution("Yellow");
+				} else if (v.ion == 119) {
+					v.solution("Orange");
+				} else if (v.ion == 123) {
+					v.solution("Purple");
+				}
+				
+			},
+			clearMax: function () {
+				context.clearRect(0, 0, 200, 200);
+				context.fillStyle = "Black";
+				context.fillRect(40, 60, 5, 100);
+				context.fillRect(140, 60, 5, 100);
+				context.fillRect(40, 160, 105, 5);
+				context.fillRect(40, 110, 105, 2);				
+			},
+			precipitation: function (color) {
+				context.fillStyle = color;
+				context.fillRect(45, 140, 95, 20);
+				context.fillStyle = "black";
+				context.fillRect(45, 140, 95, 1);
+			},
+			solution: function (color) {
+				context.fillStyle = color;
+				context.fillRect(45, 112, 95, 48);
+
+			},
+			upperLayer: function (color) {
+				context.fillStyle = color;
+				context.fillRect(45, 92, 95, 18);
+				context.fillStyle = "black";
+				context.fillRect(40, 90, 105, 2);	
+
+			},
+			back2: function () {
+				if (v.group) {
+					v.phase = 'main'		
+				} else {	
+					v.phase = 'start'		
+				}
+			},
+			answer: function (x) {
+				v.clear();
+				if (x == v.ion) {
+					goodAnswer();
+				} else {
+					badAnswer();
+
+				}
+			},
+			answerGroup: function (x) {
+				if (x === 1 && v.ion < 4) {
+					goodAnswer();
+					setTimeout(function () {
+						v.clear();
+						v.group = "k1";
+						v.phase = "main";
+					}, 500);
+					
+				} else 				if (x === 2 && v.ion > 3 && v.ion < 14) {
+					goodAnswer();
+					setTimeout(function () {
+						v.clear();
+						v.group = "k2";
+						v.phase = "main";
+					}, 500);
+				} else 				if (x === 3 && v.ion > 13 && v.ion < 22) {
+					goodAnswer();
+					setTimeout(function () {
+						v.clear();
+						v.group = "k3";
+						v.phase = "main";
+					}, 500);
+				} else 				if (x === 4 && v.ion > 21 && v.ion < 25) {
+					goodAnswer();
+					setTimeout(function () {
+						v.clear();
+						v.group = "k4";
+						v.phase = "main";
+					}, 500);
+				} else 				if (x === 5 && v.ion > 24) {
+					goodAnswer();
+					setTimeout(function () {
+						v.clear();
+						v.group = "k5";
+						v.phase = "main";
+					}, 500);
+				} else {
+					badAnswer();
+
+				}
+			},
+			changeOptions: function () {
+				var checkboxes = document.getElementsByTagName("input");
+				v.allowed = [];
+				for (let i = 0; i < checkboxes.length; i++) {
+					if (checkboxes[i].checked) {
+						v.allowed.push(parseInt(checkboxes[i].id));
+					}
+
+				}
+
+
+				if (v.allowed.indexOf(1) === -1 && v.allowed.indexOf(2) === -1 && v.allowed.indexOf(3) === -1) {
+					v.allowK1 = false;
+				} else {
+					v.allowK1 = true;
+				}
+
+				if (v.allowed.indexOf(3) === -1 && v.allowed.indexOf(4) === -1 && v.allowed.indexOf(5) === -1 && v.allowed.indexOf(6) === -1 && v.allowed.indexOf(7) === -1) {
+					v.allowK2a = false;
+				} else {
+					v.allowK2a = true;
+				}
+
+				if (v.allowed.indexOf(8) === -1 && v.allowed.indexOf(9) === -1 && v.allowed.indexOf(10) === -1 && v.allowed.indexOf(11) === -1 && v.allowed.indexOf(12) === -1 && v.allowed.indexOf(13) === -1) {
+					v.allowK2b = false;
+				} else {
+					v.allowK2b = true;
+				}
+
+				v.allowK2 = v.allowK2a || v.allowK2b;
+
+				if (v.allowed.indexOf(14) === -1 && v.allowed.indexOf(15) === -1 && v.allowed.indexOf(16) === -1 && v.allowed.indexOf(17) === -1 && v.allowed.indexOf(18) === -1 && v.allowed.indexOf(19) === -1 && v.allowed.indexOf(20) === -1 && v.allowed.indexOf(21) === -1) {
+					v.allowK3 = false;
+				} else {
+					v.allowK3 = true;
+				}
+
+				if (v.allowed.indexOf(22) === -1 && v.allowed.indexOf(23) === -1 && v.allowed.indexOf(24) === -1) {
+					v.allowK4 = false;
+				} else {
+					v.allowK4 = true;
+				}
+
+				if (v.allowed.indexOf(25) === -1 && v.allowed.indexOf(26) === -1 && v.allowed.indexOf(27) === -1 && v.allowed.indexOf(28) === -1 && v.allowed.indexOf(29) === -1) {
+					v.allowK5 = false;
+				} else {
+					v.allowK5 = true;
+				}
+
+				v.allowK = v.allowK1 ||  v.allowK2 ||  v.allowK3 ||  v.allowK4 ||  v.allowK5; 
+
+
+
+
+
+				if (v.allowed.indexOf(101) === -1 && v.allowed.indexOf(102) === -1 && v.allowed.indexOf(103) === -1 && v.allowed.indexOf(104) === -1 && v.allowed.indexOf(105) === -1 && v.allowed.indexOf(106) === -1 && v.allowed.indexOf(107) === -1 && v.allowed.indexOf(108) === -1) {
+					v.allowA1b = false;
+				} else {
+					v.allowA1b = true;
+				}
+
+				if (v.allowed.indexOf(109) === -1 && v.allowed.indexOf(110) === -1 && v.allowed.indexOf(111) === -1) {
+					v.allowA2b = false;
+				} else {
+					v.allowA2b = true;
+				}
+
+				if (v.allowed.indexOf(112) === -1 && v.allowed.indexOf(113) === -1 && v.allowed.indexOf(114) === -1 && v.allowed.indexOf(115) === -1 && v.allowed.indexOf(116) === -1) {
+					v.allowA3b = false;
+				} else {
+					v.allowA3b = true;
+				}
+
+				if (v.allowed.indexOf(117) === -1 && v.allowed.indexOf(118) === -1 && v.allowed.indexOf(119) === -1 && v.allowed.indexOf(120) === -1 && v.allowed.indexOf(121) === -1 && v.allowed.indexOf(122) === -1) {
+					v.allowA4b = false;
+				} else {
+					v.allowA4b = true;
+				}
+
+				if (v.allowed.indexOf(123) === -1 && v.allowed.indexOf(124) === -1 && v.allowed.indexOf(125) === -1 && v.allowed.indexOf(126) === -1) {
+					v.allowA5b = false;
+				} else {
+					v.allowA5b = true;
+				}
+
+				if (v.allowed.indexOf(127) === -1 && v.allowed.indexOf(128) === -1 && v.allowed.indexOf(129) === -1) {
+					v.allowA6b = false;
+				} else {
+					v.allowA6b = true;
+				}
+
+				if (v.allowed.indexOf(130) === -1 && v.allowed.indexOf(131) === -1) {
+					v.allowA7b = false;
+				} else {
+					v.allowA7b = true;
+				}
+
+				v.allowA = v.allowA1b || v.allowA2b || v.allowA3b || v.allowA4b || v.allowA5b || v.allowA6b || v.allowA7b;
+
+
+
+				if (v.allowed.indexOf(104) === -1 && v.allowed.indexOf(108) === -1 && v.allowed.indexOf(109) === -1 && v.allowed.indexOf(110) === -1 && v.allowed.indexOf(112) === -1 && v.allowed.indexOf(113) === -1 && v.allowed.indexOf(117) === -1) {
+					v.allowA1m = false;
+				} else {
+					v.allowA1m = true;
+				}
+
+				if (v.allowed.indexOf(101) === -1 && v.allowed.indexOf(102) === -1 && v.allowed.indexOf(103) === -1 && v.allowed.indexOf(105) === -1 && v.allowed.indexOf(106) === -1 && v.allowed.indexOf(107) === -1) {
+					v.allowA2m = false;
+				} else {
+					v.allowA2m = true;
+				}
+
+
+
+				if (v.allowed.indexOf(111) === -1 && v.allowed.indexOf(114) === -1 && v.allowed.indexOf(115) === -1 && v.allowed.indexOf(116) === -1 &&v.allowed.indexOf(118) === -1 && v.allowed.indexOf(120) === -1 && v.allowed.indexOf(121) === -1 && v.allowed.indexOf(122) === -1) {
+					v.allowA3m = false;
+				} else {
+					v.allowA3m = true;
+				}
+
+				if (v.allowed.indexOf(123) === -1 && v.allowed.indexOf(124) === -1 && v.allowed.indexOf(125) === -1 && v.allowed.indexOf(126) === -1 && v.allowed.indexOf(127) === -1 && v.allowed.indexOf(128) === -1) {
+					v.allowA4m = false;
+				} else {
+					v.allowA4m = true;
+				}
+
+
+
+
+			},
+			 //NOWY JON
+
+			 newK: function () {
+			 	v.ion = v.getRandomNumber(1, 29);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newK();
+			 	}
+			 },
+
+			 newK: function () {
+			 	v.ion = v.getRandomNumber(1, 29);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newK();
+			 	}
+			 },
+
+			 newK1: function () {
+			 	v.ion = v.getRandomNumber(1, 3);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newK1();
+			 	}
+			 },
+
+			 newK2: function () {
+			 	v.ion = v.getRandomNumber(3, 13);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newK2();
+			 	}
+			 },
+
+			 newK2a: function () {
+			 	v.ion = v.getRandomNumber(3, 7);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newK2a();
+			 	}
+			 },
+
+			 newK2b: function () {
+			 	v.ion = v.getRandomNumber(8, 13);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newK2b();
+			 	}
+			 },
+
+			 newK3: function () {
+			 	v.ion = v.getRandomNumber(14, 21);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newK3();
+			 	}
+			 },
+
+			 newK4: function () {
+			 	v.ion = v.getRandomNumber(22, 24);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newK4();
+			 	}
+			 },
+
+			 newK5: function () {
+			 	v.ion = v.getRandomNumber(25, 29);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newK5();
+			 	}
+			 },
+
+
+
+
+			 newA: function () {
+			 	v.ion = v.getRandomNumber(101, 131);
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA();
+			 	}
+
+
+			 },
+
+
+
+			 newA1m: function () {
+			 	console.log("!");
+			 	let array = [104, 108, 109, 110, 112, 113, 117];
+			 	v.ion = array[v.getRandomNumber(0, 6)];
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA1m();
+			 	}
+
+
+			 },
+			 newA2m: function () {
+			 	let array = [101, 102, 103, 105, 106, 107];
+			 	v.ion = array[v.getRandomNumber(0, 5)];
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA2m();
+			 	}
+
+			 },
+			 newA3m: function () {
+			 	let array = [111, 114, 115, 116, 118, 120, 121, 122];
+			 	v.ion = array[v.getRandomNumber(0, 7)];
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA3m();
+			 	}
+
+			 },
+			 newA4m: function () {
+			 	v.ion = v.getRandomNumber(123, 128)
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA4m();
+			 	}
+			 },
+
+			 newA1b: function () {
+			 	v.ion = v.getRandomNumber(101, 108)
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA1b();
+			 	}
+			 },
+			 newA2b: function () {
+			 	v.ion = v.getRandomNumber(109, 111)
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA2b();
+			 	}
+			 },
+			 newA3b: function () {
+			 	v.ion = v.getRandomNumber(112, 116)
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA3b();
+			 	}
+			 },
+			 newA4b: function () {
+			 	v.ion = v.getRandomNumber(117, 122)
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA4b();
+			 	}
+			 },
+			 newA5b: function () {
+			 	v.ion = v.getRandomNumber(123, 126)
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA5b();
+			 	}
+			 },
+			 newA6b: function () {
+			 	v.ion = v.getRandomNumber(127, 129)
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA6b();
+			 	}
+			 },
+			 newA7b: function () {
+			 	v.ion = v.getRandomNumber(130, 131)
+			 	if (v.allowed.indexOf(v.ion) === -1) {
+			 		v.newA7b();
+			 	}
+			 },
+
+			 //Odczynniki
+			 HCl: function () {
+			 	v.last = "HCl";
+			 	if (v.ion < 4) {
+			 		v.precipitation("white");
+			 	}
+			 },
+			 AKT2: function () {
+			 	v.last = "AKT2";
+			 	if (v.ion == 1) {
+			 		v.precipitation("black");
+			 	} else if (v.ion == 2) {
+			 		v.precipitation("black");
+			 	} else if (v.ion == 3) {
+			 		v.precipitation("black");
+			 	} else if (v.ion == 4) {
+			 		v.precipitation("black");
+			 	} else if (v.ion == 5) {
+			 		v.precipitation("brown");
+			 	} else if (v.ion == 6) {
+			 		v.clearMax();
+			 		v.precipitation("yellow");
+			 	} else if (v.ion == 7) {
+			 		v.precipitation("yellow");
+			 	} else if (v.ion == 8) {
+			 		v.precipitation("brown");
+			 	} else if (v.ion == 9) {
+			 		v.precipitation("yellow");
+			 	} else if (v.ion == 10 || v.ion == 11) {
+			 		v.precipitation("red");
+			 	} else if (v.ion == 12 || v.ion == 13) {
+			 		v.precipitation("yellow");
+			 	}
+			 },
+			 AKT3: function () {
+			 	v.last = "AKT3";
+			 	if (v.ion < 12) {
+			 		console.log("!");
+			 		v.AKT2();
+			 	} else if (v.ion > 13 && v.ion < 18) {
+			 		v.clearMax();
+			 		v.precipitation("black");
+
+			 	}
+			 	else if (v.ion == 18) {
+			 		v.clearMax();
+			 		v.precipitation("pink");
+
+			 	} else if (v.ion == 19 || v.ion == 20) {
+			 		v.precipitation("white");
+
+			 	} else if (v.ion == 21) {
+			 		v.clearMax();
+			 		v.precipitation("green");
+
+			 	}
+
+			 },
+			 NH42CO3: function () {
+			 	v.last = "NH42CO3";
+			 	v.precipitation("white");
+
+			 },
+			 H2SO4: function () {
+			 	v.last = "H2SO4";
+			 	if (v.ion == 3 || v.ion == 22 || v.ion == 23 || v.ion == 24) {
+			 		v.precipitation("white");
+			 	}
+			 },
+			 KOH: function () {
+			 	v.last = "KOH";
+			 	if (v.ion == 1) {
+			 		v.precipitation("brown");
+			 	} else if (v.ion == 2) {
+			 		v.precipitation("black");
+			 	} else if (v.ion == 3) {
+			 		v.precipitation("white");
+			 	} else if (v.ion == 4) {
+			 		v.precipitation("yellow");
+			 	} else if (v.ion == 5) {
+			 		v.precipitation("white");
+			 	} else if (v.ion == 6) {
+			 		v.clearMax();
+			 		v.precipitation("darkblue");
+			 	} else if (6 < v.ion && v.ion < 12) {
+			 		v.precipitation("white");
+			 	}  else if (v.ion == 14) {
+			 		v.clearMax();
+			 		v.precipitation("lightgreen");
+			 	}  else if (v.ion == 15) {
+			 		v.clearMax();
+			 		v.precipitation("brown");
+			 	}  else if (v.ion == 16) {
+			 		v.clearMax();
+			 		v.precipitation("blue");
+			 	}  else if (v.ion == 17 || v.ion == 21) {
+			 		v.clearMax();
+			 		v.precipitation("green");
+			 	}  else if (v.ion == 18 || v.ion == 19 || v.ion == 20) {
+			 		v.precipitation("white");
+			 	}  else if (v.group === "k4" || v.ion == 25) {
+			 		v.precipitation("white");
+			 	} else if (v.ion == 26) {
+			 		arrow("black", "NH3");
+			 	}
+
+			 },
+			 NH3: function () {
+			 	v.last = "NH3";
+			 	if (v.ion == 2) {
+			 		v.precipitation("black");
+			 	} else if (v.ion == 3) {
+			 		v.precipitation("white");
+			 	} else if (v.ion == 4) {
+			 		v.precipitation("white");
+			 	} else if (v.ion == 5) {
+			 		v.precipitation("white");
+			 	} else if (v.ion == 6) {
+			 		v.precipitation("green");
+			 	} else if (6 < v.ion && v.ion < 12) {
+			 		v.precipitation("white");
+			 	}  else if (v.ion > 13 && v.ion < 22) {
+			 		v.KOH();
+			 		v.last="NH3";
+			 	}
+			 },
+			 KI: function () {
+			 	v.last = "KI";
+			 	if (v.ion == 1) {
+			 		v.precipitation("yellow");
+			 	} else if (v.ion == 2) {
+			 		v.precipitation("yellowgreen");
+			 	} else if (v.ion == 3) {
+			 		v.precipitation("yellow");
+			 	} else if (v.ion == 4) {
+			 		v.precipitation("red");
+			 	} else if (v.ion == 5) {
+			 		v.precipitation("brown");
+			 	} else if (v.ion == 6) {
+			 		v.solution("yellow");
+			 		v.precipitation("white");
+			 	} else if (v.ion == 11 || v.ion == 13) {
+			 		v.solution("yellow");
+			 	}
+
+			 },
+			 K2CrO4: function () {
+			 	v.last = "K2CrO4";
+			 	v.solution("yellow");
+			 	if (v.ion == 1) {
+			 		v.precipitation("brown");
+			 	} else if (v.ion == 2) {
+			 		v.precipitation("brown");
+			 	} else if (v.ion == 3) {
+			 		v.precipitation("yellow");
+			 	} else if (v.ion == 23 || v.ion == 24) {
+			 		v.precipitation("yellow");
+			 	}
+
+			 },
+
+			 NaOH: function () {
+			 	v.KOH();
+			 	v.last = "NaOH";
+			 },
+
+			 KSCN: function () {
+			 	v.last = "KSCN";
+			 	if (v.ion == 15) {
+			 		v.solution("rgb(200, 0, 0)");
+			 	} else if (v.ion == 16) {
+			 		v.solution("blue");
+			 	}
+			 },
+
+			 H2DMG: function () {
+			 	v.last = "H2DMG";
+			 	if (v.ion == 14) {
+			 		v.solution("red");
+			 	} else if (v.ion == 17) {
+			 		v.precipitation("red");
+			 	}
+			 },
+
+			 K2HgSCN4: function () {
+			 	v.last = "K2HgSCN4";
+			 	if (v.ion == 15) {
+			 		v.solution("rgb(200, 0, 0)");
+			 	} else if (v.ion == 19) {
+			 		v.precipitation("white");
+			 	}
+			 },
+
+
+			 K3FeCN6: function () {
+			 	v.last = "K3FeCN6";
+			 	v.solution("brown");
+			 	if (v.ion == 14) {
+			 		v.precipitation("blue");
+			 	} else if (v.ion == 15) {
+			 		v.solution("darkbrown");
+			 	} else if (v.ion == 16) {
+			 		v.precipitation("darkred");
+			 	} else if (v.ion == 17) {
+			 		v.precipitation("brown");
+			 	} else if (v.ion == 18) {
+			 		v.precipitation("brown");
+			 	} else if (v.ion == 19) {
+			 		v.precipitation("yellow");
+			 	}
+
+			 },
+			 K4FeCN6: function () {
+			 	v.last = "K4FeCN6";
+			 	v.solution("yellow");
+			 	if (v.ion == 14) {
+			 		v.precipitation("white");
+			 	} else if (v.ion == 15) {
+			 		v.precipitation("blue");
+			 	} else if (v.ion == 16) {
+			 		v.precipitation("green");
+			 	} else if (v.ion == 17) {
+			 		v.precipitation("lightgreen");
+			 	} else if (v.ion == 18) {
+			 		v.precipitation("white");
+			 	} else if (v.ion == 19) {
+			 		v.precipitation("white");
+			 	} else if (v.ion == 22 || v.ion == 24) {
+			 		v.precipitation("white");
+			 	}
+
+			 },
+			 ww: function () {
+			 	v.last = "ww";
+			 	if (v.ion != 22) {
+			 		v.precipitation("white");
+			 	}
+			 },
+			 NH42C2O4: function () {
+			 	v.last = "NH42C2O4";
+			 	v.precipitation("white");
+			 },
+			 K2HgI4: function () {
+			 	if (v.ion == 26) {
+			 		v.solution("orange");
+			 	}
+			 },
+			 NaHPO4: function () {
+			 	if (v.ion == 25 || v.ion == 29) {
+			 		v.precipitation("white");
+			 	}
+			 },
+			 titanYellow: function () {
+			 	if (v.ion == 25) {
+			 		v.solution("red");
+			 	} else {
+			 		v.solution("yellow");
+			 	}
+			 },
+			 kHClO4: function () {
+			 	if (v.ion == 26 || v.ion == 27) {
+			 		v.precipitation("white");
+			 	}
+			 },
+			 Na3CoNO26: function () {
+			 	v.solution("brown");
+			 	if (v.ion == 26 || v.ion == 27) {
+			 		v.precipitation("yellow");
+			 	}
+			 },
+			 KSbOH6: function () {
+			 	if (v.ion == 25 || v.ion == 28 || v.ion == 29) {
+			 		v.precipitation("white");
+			 	}
+			 },
+			 Na2CO3: function () {
+			 	if (v.ion == 25 || v.ion == 29) {
+			 		v.precipitation("white");
+			 	}
+			 },
+
+
+					//do anionów
+
+					AgNO3: function () {
+						v.last = "AgNO3";
+						if (v.ion == 101 || v.ion == 104 || v.ion == 105 || v.ion == 107 || v.ion == 108 ||  (v.ion > 109 && v.ion < 117) ) {
+							v.precipitation("white");
+						} else if (v.ion == 102 || v.ion == 103 || v.ion == 119 || v.ion == 120|| v.ion == 122 || v.ion == 130|| v.ion == 131|| v.ion == 12) {
+							v.precipitation("yellow");
+						}  else if (v.ion == 117) {
+							v.precipitation("white");
+							setTimeout(function () {
+			if (v.phase === 'after') { //żeby nie było że ktoś szybko cofa i po cofnięciu osad się spawnuje
+				v.precipitation("yellow");
+			}
+		}, 500);
+						} else if (v.ion == 106 || v.ion == 118) {
+							v.precipitation("red");
+						} else if (v.ion == 109) {
+							v.precipitation("black");
+						} else if (v.ion == 121 || v.ion == 13) {
+							v.precipitation("brown");
+						}
+
+					},
+
+
+					BaNO32: function () {
+						v.last = "BaNO32";
+						if (v.ion == 118 || v.ion == 119) {
+							v.precipitation("yellow");
+						} else 	if (   (v.ion > 111 && v.ion < 123)  ||  (v.ion > 126 && v.ion < 139)     ) {
+							v.precipitation("white");
+						}
+					},
+
+					KMnO4: function () {
+						v.last = "KMnO4";
+						if (v.ion == 107) {
+							v.solution("brown");
+						} else if (!( v.ion == 102 || v.ion == 103 || v.ion == 104 || v.ion == 105 || v.ion == 109 || v.ion == 110 || v.ion == 113 || v.ion == 117 || v.ion == 121    )) {
+							v.solution ("purple");
+						} else if (v.ion == 109) {
+							v.precipitation("yellow");
+						}
+					},
+
+					KItoulene: function () {
+						v.last = "KItoulene";
+						if (v.ion == 110) {
+							v.upperLayer("purple");
+							arrow("brown" , "");
+
+						} else if (v.ion == 108 || v.ion == 122 || v.ion == 124) {
+							v.upperLayer("purple");
+
+						} else if (v.ion == 106) {
+							v.upperLayer("purple");
+							v.solution("yellow");
+
+						} else if (v.ion == 118 || v.ion == 119) {
+							v.upperLayer("purple");
+							v.solution("green");
+
+						} else if (v.ion == 123) {
+							v.upperLayer("purple");
+							v.solution("white");
+
+						} else {
+							v.upperLayer("white");
+						}
+					},
+
+					HClO4: function () {
+						v.last = "HClO4";
+						if (v.ion == 104) {
+							arrow("black", "HCN");
+						} else 	if (v.ion == 108) {
+							arrow("gold", "");
+						} else 	if (v.ion == 109) {
+							arrow("black", "H2S");
+						} else 	if (v.ion == 110) {
+							arrow("brown", "");
+						} else 	if (v.ion == 111) {
+							arrow("black", "CH3COOH");
+
+						} else 	if (v.ion == 112) {
+							bubbles();
+							arrow("black", "CO2");
+
+						} else 	if (v.ion == 113) {
+							arrow("black", "SO2");
+
+						} else if (v.ion == 117) {
+							arrow("black", "SO2");
+							v.precipitation("yellow");
+						} else if (v.ion == 118) {
+							v.solution("orange");
+						} else if (v.ion > 129) {
+							v.precipitation("white");
+						} 
+					},
+
+					FeCl3: function () {
+						v.last = "FeCl3";
+						console.log("!");
+						switch (v.ion) {
+
+							case 101:
+							case 102:
+							case 104:
+							case 108:
+							case 124:
+							case 125:
+							case 126:
+							case 127:
+							v.solution("khaki");
+							break;
+
+
+							case 103:
+							v.solution("yellow");
+							break;
+							case 105:
+							v.solution("rgb(200, 0, 0)");
+							break;
+							case 106:
+							v.solution("darkbrown");
+							break;
+							case 107:
+							v.precipitation("blue");
+							break;
+
+
+							case 109:
+							v.precipitation("brown");
+							break;
+							case 110:
+							v.precipitation("brown");
+							break;
+							case 111:
+							v.solution("brown");
+							break;
+
+							case 112:
+							v.precipitation("brown");
+							break;
+							case 113:
+							v.solution("lightgreen");
+							break;
+							case 115:
+							v.solution("white");
+							break;
+							case 116:
+							v.solution("brown");
+							break;
+
+							case 117:
+							v.solution("violet");
+							break;
+							case 118:
+							v.precipitation("red");
+							break;
+							case 119:
+							v.precipitation("red");
+							break;
+							case 120:
+							v.precipitation("yellow");
+							break;
+							case 121:
+							v.precipitation("yellow");
+							break;
+							case 122:
+							v.precipitation("green");
+							break;
+
+							case 123:
+							break;
+							case 128:
+							v.solution("white");
+							break;
+
+							case 114:
+							case 129:
+							case 131:
+							context.font = "18px Arial";
+							context.fillText("Brak danych :(", 30, 30);
+							break;
+
+							case 130:
+							v.solution("khaki");
+							v.precipitation("white");
+							break;
+
+
+						}
+
+					},
+
+					evaporationAndH2SO4: function () {
+						v.last = "eH2SO4";
+						context.clearRect(0, 0, 200, 200);
+
+
+						if (v.ion == 106) {
+							saltInEvaporatingDish("Brown");
+						} else 	if (v.ion == 107 || v.ion == 118) {
+							saltInEvaporatingDish("Yellow");
+						} else 	if (v.ion == 119) {
+							saltInEvaporatingDish("Orange");
+						} else 	if (v.ion == 123) {
+							saltInEvaporatingDish("Purple");
+						} else {
+							saltInEvaporatingDish("White");
+						}
+
+
+
+						context.fillStyle = "beige";
+						context.beginPath();
+						context.moveTo(40, 160);
+	context.lineTo(145, 160); //   ---
+	context.lineTo(165, 140); //   ---/
+	context.lineTo(170, 140); //   ---/-
+	context.lineTo(145, 165); //   ---/-/
+	context.lineTo(40, 165);
+	context.lineTo(15, 140);
+	context.lineTo(20, 140);
+	context.lineTo(40, 160);
+	context.fill();
+
+	context.strokeStyle = "Black";
+	context.beginPath();
+	context.moveTo(40, 160);
+	context.lineTo(145, 160); //   ---
+	context.lineTo(165, 140); //   ---/
+	context.lineTo(170, 140); //   ---/-
+	context.lineTo(145, 165); //   ---/-/
+	context.lineTo(40, 165);
+	context.lineTo(15, 140);
+	context.lineTo(20, 140);
+	context.lineTo(40, 160);
+	context.stroke();
+
+
+
+
+	context.fillStyle = "Black";
+	context.fillRect(30, 150, 125, 1);
+	context.fillRect(25, 145, 135, 1);
+
+
+
+	if (v.ion == 110) {
+		arrow("brown", "");
+	} else if (v.ion == 124) {
+		arrow("gold", "");
+	}
+
+},
+NaCl: function () {
+	v.last = "NaCl";
+	if (v.ion == 129) {
+		v.precipitation("white");
+	}
+},
+
+		 //Nadmiar odczynnika oraz próby rozpuszczenia osadu
+		 more: function () {
+		 	if (v.last === "HCl") {
+		 		if (v.ion == 1 || v.ion == 3) {
+		 			v.clear();
+		 		}
+		 	} else if (v.last === "KOH") {
+		 		if (v.ion == 3 || (v.ion > 7 && v.ion < 12) || (v.ion > 18 && v.ion < 22)) {
+		 			v.clear();
+		 		}
+		 	} else if (v.last === "NH3") {
+		 		if (v.ion == 6) {
+		 			v.solution("darkblue");
+		 		} else if (v.ion == 16) {
+		 			v.solution("pink");
+		 		} else if (v.ion == 17) {
+		 			v.solution("blue");
+		 		} else if (v.ion == 19 || v.ion == 20) {
+		 			v.clear();
+		 		}
+
+		 	} else if (v.last === "KI") {
+		 		if (v.ion == 2) {
+		 			v.precipitation("black");
+		 		} else if (v.ion == 4) {
+		 			v.clearMax();
+		 		} else if (v.ion == 5) {
+		 			v.solution("orange");
+		 		}
+		 	} else if (v.last === "NaOH") {
+		 		if (v.ion == 3 || (v.ion > 7 && v.ion < 11) ) {
+		 			v.clear();
+		 		}
+		 	}
+
+
+		 },
+		 rHNO3: function () {
+		 	if (v.ion == 3 || v.ion == 5 || v.ion == 6 || v.ion == 7) {
+		 		v.clear();
+		 	} else if (v.ion == 12 || v.ion == 13) {
+		 		v.clear();
+			 		// NO się ulatnia
+
+			 	} //Sb, Sn - nie wiem
+			 },
+			 rKOH: function () {
+			 	if (v.ion > 8 && v.ion < 14) {
+			 		v.clear();
+			 	}
+			 },
+			 rKOHH2O2: function () {
+			 	if (v.ion > 7 && v.ion < 14) {
+			 		v.clear();
+			 	}
+			 },
+			 rNH42S: function () {   //troszkę niepewne, głównie na podstawie Marczenki
+			 	if (v.ion > 8 && v.ion < 14) {
+			 		v.clear();
+			 	}
+			 },
+			 rNH42S2: function () {
+			 	if (v.ion > 7 && v.ion < 14) {
+			 		v.clear();
+			 		v.solution("yellow");
+			 	} //zdaniem Żołnowskiego
+			 	/*
+			 	inaczej zdaniem Kocjana if (v.ion == 8 || v.ion == 9 || v.ion == 11 || v.ion == 13 /*Sb5+, As5+ - lekko niepewne * /) {
+			 		v.clear();
+			 	} else 	if (v.ion == 10 || v.ion == 12) { //Sb 3+, As 3+
+			 		v.clear();
+			 		v.precipitation("yellow");
+			 	}*/
+			 },
+			 rNH42CO3: function () {
+			 	if (v.ion == 12 || v.ion == 13) {
+			 		v.clear();
+			 	}
+
+			 },
+			 rHCl: function () {
+			 	if (v.ion < 16 || v.ion > 17) {
+			 		v.clear();
+			 	}
+			 },
+			 
+			 rH2O2: function () {
+			 	v.last = "H2O2";
+			 	if (v.ion == 14 || v.ion == 16 || v.ion == 18) {
+			 		v.precipitation("brown");
+			 	} 
+
+
+			 },
+			 rCH3COOH: function () {
+			 	v.solution('orange');
+			 	if (v.ion == 24) {
+			 		v.precipitation('yellow');
+			 	}
+			 },
+			 rH2SO4: function () {
+			 	if (v.ion == 22) {
+			 		v.clearMax();
+			 	}
+
+			 },
+
+				//aniony
+
+				raHNO3: function () {
+					if  (         v.last == "AgNO3"  &&   (  (v.ion > 108 && v.ion < 123) || v.ion == 130 || v.ion == 131    )          ) {
+						v.clear();
+						v.HClO4();
+						if (v.ion == 109) {
+							v.precipitation("yellow");
+						}
+					} else if (    v.last == "BaNO32"  &&   ( (v.ion > 111 && v.ion < 123 ) || v.ion == 130 || v.ion == 131 ) ) {
+						v.clear();
+						v.HClO4();
+					} else if (v.last == "BaNO32" && v.ion < 112) {
+						v.HClO4();
+					}
+					
+				},
+
+				heat: function () {
+					if (v.last == "KMnO4" && (v.ion == 101 || v.ion == 115 || v.ion == 116) ) {
+						v.clearMax();
+						if (v.ion == 115) {
+							arrow("black", "");
+						}
+					} else if (v.last == "eH2SO4") {
+
+						if (v.ion == 101) {
+							arrow("black", "HCl");
+						} else 	if (v.ion == 102 || v.ion == 126) {
+							arrow("brown", "");
+
+						} else 	if (v.ion == 103) {
+							arrow("purple", "");
+
+						} else 	if (v.ion == 104 || v.ion == 106 || v.ion == 107) {
+							arrow("black", "HCN");
+
+						} else 	if (v.ion == 109 || v.ion == 117) {
+							arrow("black", "SO2");
+							saltInEvaporatingDish("Yellow");
+
+						} else 	if (v.ion == 112) {
+							arrow("black", "");
+						} else 	if (v.ion == 113) {
+							arrow("black", "SO2");
+						} else 	if (v.ion == 115) {
+
+						} else 	if (v.ion == 116) {
+							arrow("black", "Zapach karmelu");
+							saltInEvaporatingDish("Black");
+
+						} else 	if (v.ion == 124) {
+							explode();
+
+						} else 	if (v.ion == 128 || v.ion == 129) {
+							arrow("black", "HF");
+
+						} 
+
+					} else if (v.last == 'HClO4' && v.ion == 131) {
+						v.precipitation("yellow");
+
+					} else if (v.last == "H2O2") {
+						if (v.ion == 17) {
+							v.precipitation("black");
+						} else if (v.ion == 21) {
+							v.solution("yellow");
+						}
+					}
+				},
+
+
+			}
+		})
+
+v.clear();
+
+
+
+
+var arrow = function (color, text) {
+	context.strokeStyle = color;
+
+	context.beginPath();
+	context.moveTo(90, 40);
+	context.lineTo(75, 55);
+	context.moveTo(90, 40);
+	context.lineTo(105, 55);
+	context.moveTo(90, 40);
+	context.lineTo(90, 100);
+	context.stroke();	
+
+	let x = 90 - text.length * 5;
+	console.log(x);
+	context.fillStyle = "black";
+
+	for (let i = 0; i < text.length; i++) {
+		console.log("!");
+		if (isNaN(parseInt(text[i]))) {
+			context.font = "18px monospace";
+			context.fillText(text[i], x, 30);
+			x +=  10;
+		} else {
+			context.font = "14px monospace";
+			context.fillText(text[i], x, 35);
+			x +=  8;
+
+		}
+
+		
+	}
+};
+
+var  bubbles = function () {
+	let x = 50;
+	let y = 110;
+	let yModified;
+	let r;
+	for (let i = 1; i < 60; i++) {
+		x += 10 + v.getRandomNumber(1, 3)
+		if ( x > 140) {
+			x = 45 + v.getRandomNumber(1, 3);
+			y = y + v.getRandomNumber (7, 13);
+		}
+		if (y > 155) {
+			return;
+		}
+		r = 7 + v.getRandomNumber(1, 4);
+		yModified = y + v.getRandomNumber(0, 3); 
+		context.beginPath();
+		context.arc(x, yModified, r, 0, Math.PI * 2, false);
+		//context.arc(v.getRandomNumber(50, 135), v.getRandomNumber(110, 150), 7, 0, Math.PI * 2, false);
+		context.stroke();
+	}
+
+	//context.fillRect(45, 112, 95, 48);
+};
+
+var saltInEvaporatingDish = function (color) {
+	context.fillStyle = color;
+	context.beginPath();
+	context.moveTo(30, 150);
+	context.lineTo(155, 150);
+	context.lineTo(145, 160);
+	context.lineTo(39, 160);
+	context.lineTo(30, 150);
+	context.fill();
+};
+
+var explode = function () {
+	context.clearRect(0, 0, 200, 200);
+	context.fillStyle = "Red";
+	context.font = "48px Arial Black"
+	context.fillText("BUM!", 30, 50);
+
+	context.fillStyle = "Black";
+	context.font = "14px Arial Black";
+	context.fillText("Ditlenek chloru po", 10, 100);
+	context.fillText("ogrzaniu rozkłada się", 10, 120);
+	context.fillText("wybuchowo", 10, 140);
+};
+
+var goodAnswer = function () {	
+	context.fillStyle = "green";
+	context.font = "24px Arial";
+	context.fillText('Dobrze!', 50, 20)
+};
+
+var badAnswer = function () {	
+	context.fillStyle = "red";
+	context.font = "24px Arial";
+	context.fillText('Źle!', 70, 20)
+};
+
+//v.ion == || v.ion == || v.ion == || v.ion == || v.ion == || v.ion == || v.ion == || v.ion == || v.ion == || v.ion == || 
+</script>
+
+</body>
+
+
+
+
+</html>
