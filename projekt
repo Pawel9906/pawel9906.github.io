@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabela z nagłówkami</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>Osoba</th>
+        <th>Kategoria</th>
+        <th>Zadania</th>
+    </tr>
+    <!-- Wiersze 1 do 11 -->
+    <tr>
+        <th>PO</th>
+        <td>A</td>
+        <td>Pół monografii</td>
+    </tr>
+    <tr>
+        <th>KS</th>
+        <td>A</td>
+        <td>Pół monografii</td>
+    </tr>
+    <tr>
+        <th>MD</th>
+        <td>A</td>
+        <td>2 artykuły</td>
+    </tr>
+    <tr>
+        <th>AD</th>
+        <td>A</td>
+        <td>2 artykuły</td>
+    </tr>
+    <tr>
+        <th>MG</th>
+        <td>A</td>
+        <td>2 artykuły</td>
+    </tr>
+    <tr>
+        <th>Wiersz 6</th>
+        <td>Dane 6-1</td>
+        <td>Dane 6-2</td>
+    </tr>
+    <tr>
+        <th>Wiersz 7</th>
+        <td>Dane 7-1</td>
+        <td>Dane 7-2</td>
+    </tr>
+    <tr>
+        <th>Wiersz 8</th>
+        <td>Dane 8-1</td>
+        <td>Dane 8-2</td>
+    </tr>
+    <tr>
+        <th>Wiersz 9</th>
+        <td>Dane 9-1</td>
+        <td>Dane 9-2</td>
+    </tr>
+    <tr>
+        <th>Wiersz 10</th>
+        <td>Dane 10-1</td>
+        <td>Dane 10-2</td>
+    </tr>
+    <tr>
+        <th>Wiersz 11</th>
+        <td>Dane 11-1</td>
+        <td>Dane 11-2</td>
+    </tr>
+</table>
+
+</body>
+</html>
